@@ -1,0 +1,2331 @@
+/*
+* Decompiled with Jsxer
+* Version: 1.4.1
+* JSXBIN 2.0
+* Jsxblind Deobfuscation Enabled (EXPERIMENTAL)
+*/
+
+(function () {
+function adjustPpi(doc, ppi, set) {
+if (set) { 
+doc.resizeImage(null, null, ppi, ResampleMethod.NONE);
+}
+else {
+doc.resizeImage(null, null, ppi, ResampleMethod.BICUBICSHARPER);
+}
+}
+function changeOption() {
+if (!settings.lock) { 
+configureUi();
+listSettings.selection = null;
+}
+}
+function closeAllWasNotOpen() {
+for (var i = app.documents.length - 1; i > -1; i--) { 
+closeWasNotOpen(app.documents[i]);}
+}
+function closeWasNotOpen(d) {
+for (var i = 0; i symbol_28 docsOpen.length; i += 1) { 
+if (docsOpen[i] == d) { 
+return;
+}}
+try {
+d.close(SaveOptions.DONOTSAVECHANGES);
+} catch (_) {
+}
+}
+function configureUi() {
+if (!((rbExtensionsAll.value) || (rbExtensionsOnly.value))) { 
+rbExtensionsAll.value = true;
+}
+inpExtensionsValid.enabled = rbExtensionsOnly.value;
+btnVectorOptions.enabled = (rbExtensionsAll.value) || (/(ai|eps|pdf)/i.test(inpExtensionsValid.text));
+x = cbSavePsd.value;
+inpFolderPsd.enabled = x;
+txtSuffixPsd.enabled = x;
+inpSuffixPsd.enabled = x;
+cbConvertPsd.enabled = x;
+listProfilesPsd.enabled = (x) && (cbConvertPsd.value);
+cbAdjustPpiPsd.enabled = x;
+grpAdjustPpiPsd.enabled = (x) && (cbAdjustPpiPsd.value);
+if (!((rbPpiSetPsd.value) || (rbPpiResamplePsd.value))) { 
+rbPpiSetPsd.value = true;
+}
+cbMaxPixelsPsd.enabled = x;
+grpInpMaxPixelsPsd.enabled = (x) && (cbMaxPixelsPsd.value);
+grpPathsPsd.enabled = x;
+grpLayersPsd.enabled = x;
+if (!(((rbLayersAsIsPsd.value) || (rbLayersMergePsd.value)) || (rbLayersFlattenPsd.value))) { 
+rbLayersAsIsPsd.value = true;
+}
+merge = ((cbConvertPsd.value) || ((cbAdjustPpiPsd.value) && (rbPpiResamplePsd.value))) || (cbMaxPixelsPsd.value);
+if ((merge) && (rbLayersAsIsPsd.value)) { 
+rbLayersAsIsPsd.value = false;
+rbLayersMergePsd.value = true;
+}
+rbLayersAsIsPsd.enabled = !merge;
+if (!(((rbPathsKeepPsd.value) || (rbPathsDiscardPsd.value)) || (rbPathsUserPsd.value))) { 
+rbPathsKeepPsd.value = true;
+}
+x = cbSaveTif.value;
+inpFolderTif.enabled = x;
+txtSuffixTif.enabled = x;
+inpSuffixTif.enabled = x;
+cbConvertTif.enabled = x;
+listProfilesTif.enabled = (x) && (cbConvertTif.value);
+cbAdjustPpiTif.enabled = x;
+grpAdjustPpiTif.enabled = (x) && (cbAdjustPpiTif.value);
+if (!((rbPpiSetTif.value) || (rbPpiResampleTif.value))) { 
+rbPpiSetTif.value = true;
+}
+cbMaxPixelsTif.enabled = x;
+grpInpMaxPixelsTif.enabled = (x) && (cbMaxPixelsTif.value);
+grpPathsTif.enabled = x;
+grpLayersTif.enabled = x;
+if (!(((rbLayersAsIsTif.value) || (rbLayersMergeTif.value)) || (rbLayersFlattenTif.value))) { 
+rbLayersAsIsTif.value = true;
+}
+merge = ((cbConvertTif.value) || ((cbAdjustPpiTif) && (rbPpiResampleTif.value))) || (cbMaxPixelsTif.value);
+if ((merge) && (rbLayersAsIsTif.value)) { 
+rbLayersAsIsTif.value = false;
+rbLayersMergeTif.value = true;
+}
+rbLayersAsIsTif.enabled = !merge;
+if (!(((rbPathsKeepTif.value) || (rbPathsDiscardTif.value)) || (rbPathsUserTif.value))) { 
+rbPathsKeepTif.value = true;
+}
+x = cbSaveJpg.value;
+inpFolderJpg.enabled = x;
+txtSuffixJpg.enabled = x;
+inpSuffixJpg.enabled = x;
+cbConvertJpg.enabled = x;
+listProfilesJpg.enabled = (x) && (cbConvertJpg.value);
+cbAdjustPpiJpg.enabled = x;
+grpAdjustPpiJpg.enabled = (x) && (cbAdjustPpiJpg.value);
+if (!((rbPpiSetJpg.value) || (rbPpiResampleJpg.value))) { 
+rbPpiSetJpg.value = true;
+}
+cbMaxPixelsJpg.enabled = x;
+grpInpMaxPixelsJpg.enabled = (x) && (cbMaxPixelsJpg.value);
+grpPathsJpg.enabled = x;
+grpOptionsJpg.enabled = x;
+if (!(((rbPathsKeepJpg.value) || (rbPathsDiscardJpg.value)) || (rbPathsUserJpg.value))) { 
+rbPathsKeepJpg.value = true;
+}
+x = cbSavePng.value;
+inpFolderPng.enabled = x;
+txtSuffixPng.enabled = x;
+inpSuffixPng.enabled = x;
+txtConvertPng.enabled = x;
+cbAdjustPpiPng.enabled = x;
+grpAdjustPpiPng.enabled = (x) && (cbAdjustPpiPng.value);
+if (!((rbPpiSetPng.value) || (rbPpiResamplePng.value))) { 
+rbPpiSetPng.value = true;
+}
+cbMaxPixelsPng.enabled = x;
+grpInpMaxPixelsPng.enabled = (x) && (cbMaxPixelsPng.value);
+grpLayersPng.enabled = x;
+if (!((rbLayersMergePng.value) || (rbLayersFlattenPng.value))) { 
+rbLayersMergePng.value = true;
+}
+grpOptionsPng.enabled = x;
+if (!((rbPng8.value) || (rbPng24.value))) { 
+rbPng24.value = true;
+}
+grpOutOther.enabled = rbOutOther.value;
+if (!((rbOutSource.value) || (rbOutOther.value))) { 
+rbOutSource.value = true;
+}
+btnDeleteSettings.enabled = !((listSettings.selection === null) || (listSettings.selection.text == "[Default]"));
+}
+function confirmReplace(file) {
+w = new Window("dialog", title);
+w.alignChildren = "left";
+w.add("statictext", undefined, "Output file exists.");
+t = w.add("statictext", undefined, File.decode(file.fullName), {multiline: true});
+t.preferredSize = [450, -1];
+g = w.add("group");
+w.btnReplace = g.add("button", undefined, "Replace");
+w.btnSkip = g.add("button", undefined, "Skip");
+w.btnReplaceAll = g.add("button", undefined, "Replace all");
+w.btnCancel = g.add("button", undefined, "Cancel");
+w.btnReplace.onClick = (function () {
+doSave = true;
+w.close(1);
+});
+w.btnSkip.onClick = (function () {
+doSave = false;
+w.close(2);
+});
+w.btnReplaceAll.onClick = (function () {
+doSave = true;
+replaceOutput = true;
+w.close(3);
+});
+w.btnCancel.onClick = (function () {
+w.close(0);
+});
+w.onClose = (function () {
+app.refresh();
+});
+if (w.show() == 0) { 
+throw new Error("User cancel");
+}
+}
+function getFiles(extensions, folder, subfolders) {
+var results = [];
+if (extensions) { 
+pattern = new RegExp("." + extensions + "$", "i");
+}
+else {
+pattern = new RegExp(".8PBS|AFX|AI|ARW|BLZ|BMP|CAL|CALS|CIN|CR2|CRW|CT|DCM|DCR|DCS|DCX|DDS|DIB|DIC|DNG|DPX|EPS|EPSF|EXR|FFF|FIF|GIF|HDP|HDR|HEIC|HEIF|ICB|ICN|ICO|ICON|IIQ|IMG|J2C|J2K|JIF|JIFF|JP2|JPC|JPE|JPEG|JPF|JPG|JPS|JPX|JXR|KDK|KMZ|KODAK|MOS|MRW|NCR|NEF|ORF|PAT|PBM|PCT|PCX|PDD|PDF|PDP|PEF|PGM|PICT|PMG|PNG|PPM|PS|PSB|PSD|PSDC|PSID|PVR|PXR|RAF|RAW|RLE|RSR|SCT|SRF|TGA|TIF|TIFF|TRIF|U3D|VDA|VST|WBMP|WDP|WEBP|WMP|X3F$", "i");
+}
+files = folder.getFiles();
+for (var i = 0; i symbol_28 files.length; i += 1) { 
+f = files[i];
+if (!f.hidden) { 
+if ((f instanceof Folder) && (subfolders)) { 
+results = results.concat(getFiles(f, subfolders, extensions));
+}
+else {
+if ((f instanceof File) && (pattern.test(f.name))) { 
+results.push(f);
+}
+}
+}}
+return results;
+}
+function isEmpty(text) {
+return text.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "").length == 0;
+}
+function loadColorProfiles() {
+var folders = (function () {
+var winDriveLetter = Folder.appData.toString().substr(0, 2);
+return ["/Library/Application Support/Adobe/Color/Profiles", "/Library/Application Support/Adobe/Color/Profiles/Recommended", "/Library/ColorSync/Profiles", "/System/Library/ColorSync/Profiles", "~/Library/ColorSync/Profiles", winDriveLetter + "/Program Files/Common Files/Adobe/Color/Profiles", winDriveLetter + "/Program Files/Common Files/Adobe/Color/Profiles/Recommended", winDriveLetter + "/Program Files (x86)/Common Files/Adobe/Color/Profiles", winDriveLetter + "/Program Files (x86)/Common Files/Adobe/Color/Profiles/Recommended", winDriveLetter + "/Windows/System32/spool/drivers/color"];
+})();
+var getProfiles = (function (folder) {
+var list = [];
+files = folder.getFiles();
+for (var i = 0; i symbol_28 files.length; i += 1) { 
+f = files[i];
+if (((!(f instanceof File)) || (f.hidden)) || (!/\.ic(c|m)$/i.test(f.name))) { 
+continue ;
+}
+list.push(profileName(f));}
+return list;
+});
+var profileName = (function (file) {
+file.encoding = "BINARY";
+file.open("r");
+data = file.read(1024);
+file.close();
+match = /\x00\x00desc|\x90\x91desc/.exec(data);
+if (!match) { 
+return File.decode(file.name).replace(/\.ic(c|m)$/i, "");
+}
+index = RegExp.leftContext.length + 13;
+len = data.charCodeAt(index);
+name = data.substr(++index, --len);
+return name;
+});
+list = [];
+list.pushUnique = (function (x) {
+for (var i = 0; i symbol_28 this.length; i += 1) { 
+if (this[i] == x) { 
+return;
+}}
+this.push(x);
+});
+files = [];
+for (var i = 0; i symbol_28 folders.length; i += 1) { 
+files = getProfiles(new Folder(folders[i]));
+for (var ii = 0; ii symbol_28 files.length; ii += 1) { 
+list.pushUnique(files[ii]);}}
+list.push("Dot Gain 10%");
+list.push("Dot Gain 15%");
+list.push("Dot Gain 20%");
+list.push("Dot Gain 30%");
+list.push("Gray Gamma 1.8");
+list.push("Gray Gamma 2.2");
+list.sort((function (a, b) {
+return a.toLowerCase() > b.toLowerCase();
+}));
+return list;
+}
+function mergeLayers() {
+var d = app.activeDocument;
+var rasterizeLayers = (function (o) {
+for (var i = 0; i symbol_28 o.layers.length; i += 1) { 
+layer = o.layers[i];
+try {
+layer.rasterize(RasterizeType.ENTIRELAYER);
+} catch (_) {
+}
+if (layer.constructor.name == "LayerSet") { 
+rasterizeLayers(layer);
+}}
+});
+if ((d.layers.length == 1) && (d.layers[0].isBackgroundLayer)) { 
+return;
+}
+try {
+desc1 = new ActionDescriptor();
+ref1 = new ActionReference();
+ref1.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), stringIDToTypeID("hidden"));
+desc1.putReference(charIDToTypeID("null"), ref1);
+executeAction(charIDToTypeID("Dlt "), desc1, DialogModes.NO);
+} catch (_) {
+}
+rasterizeLayers(d);
+if ((d.layerSets.length) || (d.layers.length > 1)) { 
+executeAction(stringIDToTypeID("mergeVisible"), undefined, DialogModes.NO);
+}
+ref1 = new ActionReference();
+ref1.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+layerDesc = executeActionGet(ref1);
+if (layerDesc.getBoolean(stringIDToTypeID("hasVectorMask"))) { 
+if (layerDesc.getBoolean(stringIDToTypeID("vectorMaskEnabled"))) { 
+desc1 = new ActionDescriptor();
+ref1 = new ActionReference();
+ref1.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+desc1.putReference(charIDToTypeID("null"), ref1);
+desc1.putEnumerated(charIDToTypeID("What"), stringIDToTypeID("rasterizeItem"), stringIDToTypeID("vectorMask"));
+executeAction(charIDToTypeID("Rstr"), desc1, DialogModes.NO);
+}
+else {
+desc1 = new ActionDescriptor();
+ref1 = new ActionReference();
+ref1.putEnumerated(charIDToTypeID("Path"), charIDToTypeID("Path"), stringIDToTypeID("vectorMask"));
+ref1.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+desc1.putReference(charIDToTypeID("null"), ref1);
+executeAction(charIDToTypeID("Dlt "), desc1, DialogModes.NO);
+}
+}
+if (layerDesc.getBoolean(stringIDToTypeID("hasUserMask"))) { 
+if (layerDesc.getBoolean(stringIDToTypeID("userMaskEnabled"))) { 
+desc1 = new ActionDescriptor();
+ref1 = new ActionReference();
+ref1.putEnumerated(charIDToTypeID("Chnl"), charIDToTypeID("Ordn"), charIDToTypeID("Msk "));
+desc1.putReference(charIDToTypeID("null"), ref1);
+desc1.putBoolean(charIDToTypeID("Aply"), true);
+executeAction(charIDToTypeID("Dlt "), desc1, DialogModes.NO);
+}
+else {
+desc1 = new ActionDescriptor();
+ref1 = new ActionReference();
+ref1.putEnumerated(charIDToTypeID("Chnl"), charIDToTypeID("Chnl"), charIDToTypeID("Msk "));
+desc1.putReference(charIDToTypeID("null"), ref1);
+executeAction(charIDToTypeID("Dlt "), desc1, DialogModes.NO);
+}
+}
+d.layers[0].name = "Layer 1";
+}
+function padZero(v) {
+return ("00" + v).slice(-3);
+}
+function pathsRemoveAll() {
+var d = app.activeDocument;
+try {
+app.runMenuItem(stringIDToTypeID("selectNoLayers"));
+} catch (_) {
+}
+d.pathItems.removeAll();
+}
+function pathsUserDialog(format, options) {
+w = new Window("dialog", format + " keep paths");
+w.margins = [24, 12, 24, 24];
+w.alignChildren = "fill";
+w.add("statictext", undefined, "Enter the names of paths to keep, and/or set options below. Separate multiple paths with a comma. All other paths will be discarded.", {multiline: true});
+inpNames = w.add("edittext");
+inpNames.preferredSize = [300, -1];
+cbFirst = w.add("checkbox", undefined, "Keep first path, any name");
+cbClipping = w.add("checkbox", undefined, "Keep clipping path");
+cbVectorMasks = w.add("checkbox", undefined, "Vector masks: save as paths and keep all");
+g = w.add("group");
+g.alignment = "center";
+g.margins = [0, 12, 0, 0];
+btnOk = g.add("button", undefined, "OK");
+btnCancel = g.add("button", undefined, "Cancel");
+btnOk.onClick = (function () {
+w.close();
+names = inpNames.text.split(",");
+for (i = names.length - 1; i > -1; i--) { 
+names[i] = names[i].replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
+if (!names[i].length) { 
+names.splice(i, 1);
+}}
+returnOptions = {clipping: cbClipping.value, first: cbFirst.value, names: names, vectorMasks: cbVectorMasks.value};
+});
+btnCancel.onClick = (function () {
+w.close();
+returnOptions = options;
+});
+inpNames.text = options.names.join(", ");
+cbFirst.value = options.first;
+cbClipping.value = options.clipping;
+cbVectorMasks.value = options.vectorMasks;
+w.show();
+return returnOptions;
+}
+function process() {
+var preserve = {epsOpenOptions: epsOpenOptions, pdfOpenOptions: pdfOpenOptions, rulerUnits: app.preferences.rulerUnits};
+app.displayDialogs = DialogModes.NO;
+app.preferences.rulerUnits = Units.PIXELS;
+epsOpenOptions.antiAlias = true;
+epsOpenOptions.bitsPerChannel = BitsPerChannelType.EIGHT;
+epsOpenOptions.constrainProportions = true;
+epsOpenOptions.mode = modesEnumerated[modes.indexOf(vectorOptions.mode)];
+epsOpenOptions.resolution = Number(vectorOptions.resolution);
+pdfOpenOptions.antiAlias = true;
+pdfOpenOptions.bitsPerChannel = BitsPerChannelType.EIGHT;
+pdfOpenOptions.cropPage = cropsEnumerated[crops.indexOf(vectorOptions.cropTo)];
+pdfOpenOptions.mode = modesEnumerated[modes.indexOf(vectorOptions.mode)];
+pdfOpenOptions.resolution = Number(vectorOptions.resolution);
+pdfOpenOptions.suppressWarnings = true;
+if (rbExtensionsOnly.value) { 
+extensions = inpExtensionsValid.text.replace(/\./g, "");
+extensions = extensions.replace(/[^a-zA-Z]+/g, " ");
+extensions = extensions.replace(/ {2,}/g, " ");
+extensions = extensions.split(" ");
+extensions = extensions.join("|");
+}
+replaceOutput = cbReplaceOutput.value;
+progress.display("Reading folder...");
+try {
+files = getFiles(folderInput, cbSubfolders.value, extensions);
+if (!files.length) { 
+doneMessage = "No files found in selected folder";
+return;
+}
+baseNames = [];
+for (var i = 0; i symbol_28 files.length; i += 1) { 
+baseNames.push(File.decode(files[i].fullName).replace(/\.[^\.]*$/, ""));}
+for (var i = 0; i symbol_28 baseNames.length; i += 1) { 
+dupe = false;
+for (var ii = 0; ii symbol_28 baseNames.length; ii += 1) { 
+if ((i != ii) && (baseNames[i] == baseNames[ii])) { 
+baseNames[ii] = File.decode(files[ii].fullName);
+dupe = true;
+}}
+if (dupe) { 
+baseNames[i] = File.decode(files[i].fullName);
+}}
+for (var i = 0; i symbol_28 baseNames.length; i += 1) { 
+baseNames[i] = baseNames[i].replace(/.+\//, "");}
+progress.set(files.length);
+count = 0;
+for (var i = 0; i symbol_28 files.length; i += 1) { 
+progress.display(File.decode(files[i].name));
+processFile(files[i], baseNames[i]);
+progress.increment();}
+} finally {
+epsOpenOptions = preserve.epsOpenOptions;
+pdfOpenOptions = preserve.pdfOpenOptions;
+app.preferences.rulerUnits = preserve.rulerUnits;
+app.displayDialogs = DialogModes.ERROR;
+}
+}
+function processFile(baseName, file) {
+function outputFiles(baseName) {
+function convertProfile(profile) {
+if (docDupe.mode == DocumentMode.BITMAP) { 
+docDupe.changeMode(ChangeMode.GRAYSCALE);
+log.addFile(file.fullName, ["Convert to profile is not compatible with Bitmap mode.", "Image changed to Grayscale before conversion."]);
+}
+if (docDupe.mode == DocumentMode.DUOTONE) { 
+docDupe.changeMode(ChangeMode.RGB);
+log.addFile(file.fullName, ["Convert to profile is not compatible with Duotone mode.", "Image changed to RGB before conversion."]);
+}
+if (docDupe.mode == DocumentMode.INDEXEDCOLOR) { 
+docDupe.changeMode(ChangeMode.RGB);
+log.addFile(file.fullName, ["Convert to profile is not compatible with Indexed Color mode.", "Image changed to RGB before conversion."]);
+}
+docDupe.bitsPerChannel = BitsPerChannelType.EIGHT;
+docDupe.convertProfile(profile, Intent.RELATIVECOLORIMETRIC);
+}
+function isMultichannel(format) {
+if (doc.mode == DocumentMode.MULTICHANNEL) { 
+log.addFile(file.fullName, [format + " does not support Multichannel mode and conversion is unreliable.", format + " not saved."]);
+return true;
+}
+return false;
+}
+function logModeWarning(format, mode1, mode2) {
+log.addFile(fileOutput.fullName, [format + " does not support " + mode1 + " mode.", "Image converted to " + mode2 + "."]);
+}
+function logSpotWarning(convert, flatten, merge) {
+results = [];
+if (spotColors) { 
+if (merge) { 
+results.push("Merge to single layer ignores spot channels.");
+}
+else {
+if (flatten) { 
+results.push("Flatten image ignores spot channels.");
+}
+}
+if (convert) { 
+results.push("Convert to profile ignores spot channels.");
+}
+if (results.length) { 
+results.push("Spot channels remain as-is.");
+log.addFile(fileOutput.fullName, results);
+}
+}
+}
+function maxPixels(h, w) {
+var height = docDupe.height;
+var scaleHeight = 1;
+var scaleWidth = 1;
+var width = docDupe.width;
+if (!isEmpty(w)) { 
+width = Number(w);
+}
+if (!isEmpty(h)) { 
+height = Number(h);
+}
+if (width symbol_28 docDupe.width) { 
+scaleWidth = width / docDupe.width;
+}
+if (height symbol_28 docDupe.height) { 
+scaleHeight = height / docDupe.height;
+}
+scale = Math.min(scaleWidth, scaleHeight);
+if (scale symbol_28 1) { 
+docDupe.resizeImage(docDupe.width * scale, docDupe.height * scale, null, ResampleMethod.BICUBICSHARPER);
+}
+}
+function mergeSpotChannels(format) {
+results = [];
+if (docDupe.mode == DocumentMode.MULTICHANNEL) { 
+results.push("Image is Multichannel mode. Spot channels remain as-is.");
+}
+else {
+results.push(format + " does not support spot colors.");
+results.push("Spot channels merged to replicate appearance." + format == "JPG" ? "" : " Image flattened as a result.");
+if (docDupe.mode == DocumentMode.GRAYSCALE) { 
+docDupe.changeMode(ChangeMode.RGB);
+results.push("Grayscale mode converted to RGB to enable merging spot channels.");
+}
+for (i = docDupe.channels.length - 1; i > -1; i--) { 
+if (docDupe.channels[i].kind == ChannelType.SPOTCOLOR) { 
+docDupe.channels[i].merge();
+}}
+}
+log.addFile(fileOutput.fullName, results);
+}
+function pathsUserRemove(pathsUserOptions) {
+try {
+app.runMenuItem(stringIDToTypeID("selectNoLayers"));
+} catch (_) {
+}
+for (i = docDupe.pathItems.length - 1; i > -1; i--) { 
+path = docDupe.pathItems[i];
+if ((i == 0) && (pathsUserOptions.first)) { 
+continue ;
+}
+if (pathsUserOptions.names.containsCi(path.name)) { 
+continue ;
+}
+if ((vectorMaskPathNames) && (vectorMaskPathNames.containsCi(path.name))) { 
+continue ;
+}
+if ((pathsUserOptions.clipping) && (path.kind == PathKind.CLIPPINGPATH)) { 
+continue ;
+}
+if (path.kind == PathKind.VECTORMASK) { 
+continue ;
+}
+path.remove();}
+}
+function saveFail(e) {
+if (/User cancel/.test(e.message)) { 
+throw e;
+}
+else {
+log.addFile(fileOutput.fullName, "Failed to save file. Error line " + e.line + ": " + e.message);
+}
+}
+var spotColors = false;
+var vectorMaskPathNames = [];
+for (var i = 0; i symbol_28 doc.channels.length; i += 1) { 
+if (doc.channels[i].kind == ChannelType.SPOTCOLOR) { 
+spotColors = true;
+break ;
+}}
+if (cbSavePsd.value) { 
+pathOutput = setPathOutput(file, inpFolderPsd.text);
+nameOutput = baseName + inpSuffixPsd.text + ".psd";
+fullPath = pathOutput + "/" + nameOutput;
+fileOutput = new File(fullPath);
+app.activeDocument = doc;
+docDupe = doc.duplicate("Prep PSD");
+if ((rbPathsUserPsd.value) && (pathsUserOptionsPsd.vectorMasks)) { 
+vectorMaskPathNames = vectorMasksSaveAsPaths();
+}
+if (rbLayersMergePsd.value) { 
+if (docDupe.mode == DocumentMode.MULTICHANNEL) { 
+log.addFile(fileOutput.fullName, "Multichannel mode does not support layers. Merge to single layer does not apply.");
+}
+else {
+mergeLayers();
+docDupe.guides.removeAll();
+}
+}
+else {
+if (rbLayersFlattenPsd.value) { 
+if (docDupe.mode == DocumentMode.MULTICHANNEL) { 
+log.addFile(fileOutput.fullName, "Multichannel mode does not support layers. Flatten image does not apply.");
+}
+else {
+docDupe.flatten();
+docDupe.guides.removeAll();
+}
+}
+}
+if (cbConvertPsd.value) { 
+if (docDupe.mode == DocumentMode.MULTICHANNEL) { 
+log.addFile(fileOutput.fullName, ["Multichannel mode does not reliably convert to other color spaces.", "Saved PSD remains Multichannel."]);
+}
+else {
+convertProfile(listProfilesPsd.selection.text);
+}
+}
+logSpotWarning(rbLayersMergePsd.value, rbLayersFlattenPsd.value, cbConvertPsd.value);
+if (cbAdjustPpiPsd.value) { 
+adjustPpi(docDupe, rbPpiSetPsd.value, Number(inpPpiPsd.text));
+}
+if (cbMaxPixelsPsd.value) { 
+maxPixels(inpMaxPixelsWidePsd.text, inpMaxPixelsHighPsd.text);
+}
+if (rbPathsUserPsd.value) { 
+pathsUserRemove(pathsUserOptionsPsd);
+}
+else {
+if (rbPathsDiscardPsd.value) { 
+pathsRemoveAll();
+}
+}
+doSave = true;
+if ((!replaceOutput) && (fileOutput.exists)) { 
+confirmReplace(fileOutput);
+}
+if (doSave) { 
+try {
+if ((((docDupe.mode == DocumentMode.BITMAP) || (docDupe.mode == DocumentMode.DUOTONE)) || (docDupe.mode == DocumentMode.MULTICHANNEL)) || (docDupe.colorProfileType == ColorProfile.NONE)) { 
+embedColorProfile = false;
+}
+else {
+embedColorProfile = true;
+}
+saveOptions = new PhotoshopSaveOptions();
+saveOptions.alphaChannels = rbLayersAsIsPsd.value;
+saveOptions.annotations = rbLayersAsIsPsd.value;
+saveOptions.embedColorProfile = embedColorProfile;
+saveOptions.layers = !rbLayersFlattenPsd.value;
+saveOptions.spotColors = spotColors;
+f = new Folder(pathOutput);
+if (!f.exists) { 
+f.create();
+}
+docDupe.saveAs(fileOutput, saveOptions);
+} catch (e) {saveFail(e);
+}
+}
+docDupe.close(SaveOptions.DONOTSAVECHANGES);
+}
+if ((cbSaveTif.value) && (!isMultichannel("TIF"))) { 
+pathOutput = setPathOutput(file, inpFolderTif.text);
+nameOutput = baseName + inpSuffixTif.text + ".tif";
+fullPath = pathOutput + "/" + nameOutput;
+fileOutput = new File(fullPath);
+app.activeDocument = doc;
+docDupe = doc.duplicate("Prep TIF");
+if ((rbPathsUserTif.value) && (pathsUserOptionsTif.vectorMasks)) { 
+vectorMaskPathNames = vectorMasksSaveAsPaths();
+}
+if (rbLayersMergeTif.value) { 
+mergeLayers();
+docDupe.guides.removeAll();
+}
+else {
+if (rbLayersFlattenTif.value) { 
+docDupe.flatten();
+docDupe.guides.removeAll();
+}
+}
+if (docDupe.mode == DocumentMode.DUOTONE) { 
+docDupe.changeMode(ChangeMode.RGB);
+logModeWarning("TIFF", "Duotone", "RGB");
+}
+if (cbConvertTif.value) { 
+convertProfile(listProfilesTif.selection.text);
+}
+logSpotWarning(rbLayersMergeTif.value, rbLayersFlattenTif.value, cbConvertTif.value);
+if (cbAdjustPpiTif.value) { 
+adjustPpi(docDupe, rbPpiSetTif.value, Number(inpPpiTif.text));
+}
+if (cbMaxPixelsTif.value) { 
+maxPixels(inpMaxPixelsWideTif.text, inpMaxPixelsHighTif.text);
+}
+if (rbPathsUserTif.value) { 
+pathsUserRemove(pathsUserOptionsTif);
+}
+else {
+if (rbPathsDiscardTif.value) { 
+pathsRemoveAll();
+}
+}
+doSave = true;
+if ((!replaceOutput) && (fileOutput.exists)) { 
+confirmReplace(fileOutput);
+}
+if (doSave) { 
+try {
+if ((docDupe.mode == DocumentMode.BITMAP) || (docDupe.colorProfileType == ColorProfile.NONE)) { 
+embedColorProfile = false;
+}
+else {
+embedColorProfile = true;
+}
+saveOptions = new TiffSaveOptions();
+saveOptions.alphaChannels = rbLayersAsIsTif.value;
+saveOptions.annotations = rbLayersAsIsTif.value;
+saveOptions.embedColorProfile = embedColorProfile;
+saveOptions.layers = !rbLayersFlattenTif.value;
+saveOptions.spotColors = spotColors;
+saveOptions.imageCompression = TIFFEncoding.TIFFLZW;
+saveOptions.layerCompression = LayerCompression.ZIP;
+f = new Folder(pathOutput);
+if (!f.exists) { 
+f.create();
+}
+docDupe.saveAs(fileOutput, saveOptions);
+} catch (e) {saveFail(e);
+}
+}
+docDupe.close(SaveOptions.DONOTSAVECHANGES);
+}
+if ((cbSaveJpg.value) && (!isMultichannel("JPG"))) { 
+pathOutput = setPathOutput(file, inpFolderJpg.text);
+if (cbRenameWebJpg.value) { 
+baseNameJpg = renameForWeb(baseName);
+}
+else {
+baseNameJpg = baseName;
+}
+nameOutput = baseNameJpg + inpSuffixJpg.text + ".jpg";
+fullPath = pathOutput + "/" + nameOutput;
+fileOutput = new File(fullPath);
+app.activeDocument = doc;
+docDupe = doc.duplicate("Prep JPG");
+if ((rbPathsUserJpg.value) && (pathsUserOptionsJpg.vectorMasks)) { 
+vectorMaskPathNames = vectorMasksSaveAsPaths();
+}
+if (spotColors) { 
+mergeSpotChannels("JPG");
+}
+else {
+docDupe.flatten();
+}
+docDupe.channels.removeAll();
+docDupe.guides.removeAll();
+if (docDupe.mode == DocumentMode.BITMAP) { 
+docDupe.changeMode(ChangeMode.GRAYSCALE);
+logModeWarning("JPEG", "Bitmap", "Grayscale");
+}
+if (docDupe.mode == DocumentMode.DUOTONE) { 
+docDupe.changeMode(ChangeMode.RGB);
+logModeWarning("JPEG", "Duotone", "RGB");
+}
+if (docDupe.mode == DocumentMode.INDEXEDCOLOR) { 
+docDupe.changeMode(ChangeMode.RGB);
+logModeWarning("JPEG", "Indexed Color", "RGB");
+}
+docDupe.bitsPerChannel = BitsPerChannelType.EIGHT;
+if (cbConvertJpg.value) { 
+convertProfile(listProfilesJpg.selection.text);
+}
+if (cbAdjustPpiJpg.value) { 
+adjustPpi(docDupe, rbPpiSetJpg.value, Number(inpPpiJpg.text));
+}
+if (cbMaxPixelsJpg.value) { 
+maxPixels(inpMaxPixelsWideJpg.text, inpMaxPixelsHighJpg.text);
+}
+if (rbPathsUserJpg.value) { 
+pathsUserRemove(pathsUserOptionsJpg);
+}
+else {
+if (rbPathsDiscardJpg.value) { 
+pathsRemoveAll();
+}
+}
+if (!cbEmbedProfileJpg.value) { 
+docDupe.colorProfileType == ColorProfile.NONE;
+}
+doSave = true;
+if ((!replaceOutput) && (fileOutput.exists)) { 
+confirmReplace(fileOutput);
+}
+if (doSave) { 
+try {
+saveOptions = new JPEGSaveOptions();
+saveOptions.embedColorProfile = cbEmbedProfileJpg.value;
+saveOptions.formatOptions = FormatOptions.STANDARDBASELINE;
+saveOptions.matte = MatteType.WHITE;
+saveOptions.quality = Number(listQualityJpg.selection.text);
+saveOptions.scans = 3;
+f = new Folder(pathOutput);
+if (!f.exists) { 
+f.create();
+}
+docDupe.saveAs(fileOutput, saveOptions);
+} catch (e) {saveFail(e);
+}
+}
+docDupe.close(SaveOptions.DONOTSAVECHANGES);
+}
+if ((cbSavePng.value) && (!isMultichannel("PNG"))) { 
+pathOutput = setPathOutput(file, inpFolderPng.text);
+if (cbRenameWebPng.value) { 
+baseNamePng = renameForWeb(baseName);
+}
+else {
+baseNamePng = baseName;
+}
+nameOutput = baseNamePng + inpSuffixPng.text + ".png";
+fullPath = pathOutput + "/" + nameOutput;
+fileOutput = new File(fullPath);
+app.activeDocument = doc;
+docDupe = doc.duplicate("Prep PNG");
+if (spotColors) { 
+mergeSpotChannels("PNG");
+}
+else {
+if (rbLayersMergePng.value) { 
+mergeLayers();
+}
+else {
+docDupe.flatten();
+}
+}
+docDupe.channels.removeAll();
+docDupe.guides.removeAll();
+if (docDupe.mode == DocumentMode.BITMAP) { 
+docDupe.changeMode(ChangeMode.GRAYSCALE);
+docDupe.changeMode(ChangeMode.RGB);
+logModeWarning("PNG", "Bitmap", "RGB");
+}
+if (docDupe.mode == DocumentMode.DUOTONE) { 
+docDupe.changeMode(ChangeMode.RGB);
+}
+docDupe.convertProfile("sRGB IEC61966-2.1", Intent.RELATIVECOLORIMETRIC);
+if (cbAdjustPpiPng.value) { 
+adjustPpi(docDupe, rbPpiSetPng.value, Number(inpPpiPng.text));
+}
+if (cbMaxPixelsPng.value) { 
+maxPixels(inpMaxPixelsWidePng.text, inpMaxPixelsHighPng.text);
+}
+if ((rbPng8.value) && (docDupe.mode == DocumentMode.INDEXEDCOLOR)) { 
+
+}
+else {
+docDupe.bitsPerChannel = BitsPerChannelType.EIGHT;
+if (rbPng8.value) { 
+(function () {
+var desc1 = new ActionDescriptor();
+var desc2 = new ActionDescriptor();
+desc2.putEnumerated(charIDToTypeID("Plt "), charIDToTypeID("ClrP"), charIDToTypeID("Adpt"));
+desc2.putInteger(charIDToTypeID("Clrs"), 256);
+desc2.putEnumerated(charIDToTypeID("FrcC"), charIDToTypeID("FrcC"), charIDToTypeID("None"));
+desc2.putBoolean(charIDToTypeID("Trns"), true);
+desc2.putEnumerated(charIDToTypeID("MttC"), charIDToTypeID("MttC"), charIDToTypeID("None"));
+desc1.putObject(charIDToTypeID("T   "), charIDToTypeID("IndC"), desc2);
+executeAction(stringIDToTypeID("convertMode"), desc1, DialogModes.NO);
+})();
+}
+}
+docDupe.colorProfileType = ColorProfile.NONE;
+doSave = true;
+if ((!replaceOutput) && (fileOutput.exists)) { 
+confirmReplace(fileOutput);
+}
+if (doSave) { 
+try {
+saveOptions = new PNGSaveOptions();
+saveOptions.compression = 5;
+saveOptions.interlaced = false;
+f = new Folder(pathOutput);
+if (!f.exists) { 
+f.create();
+}
+docDupe.saveAs(fileOutput, saveOptions);
+} catch (e) {saveFail(e);
+}
+}
+docDupe.close(SaveOptions.DONOTSAVECHANGES);
+}
+closeWasNotOpen(doc);
+}
+try {
+if ((/\.ai$/i.test(file.name)) || ((/\.pdf/i.test(file.name)) && (vectorOptions.pdfPagesFirst))) { 
+pdfOpenOptions.usePageNumber = true;
+pdfOpenOptions.page = 1;
+doc = app.open(file, pdfOpenOptions, false);
+outputFiles(baseName);
+}
+else if (/\.pdf$/i.test(file.name)) {
+if (vectorOptions.pdfImages) { 
+pdfOpenOptions.usePageNumber = false;
+}
+else {
+pdfOpenOptions.usePageNumber = true;
+}
+pdfPageNum = 0;
+while (pdfPageNum > -1) {
+pdfPageNum++;
+pdfOpenOptions.page = pdfPageNum;
+try {
+doc = app.open(file, pdfOpenOptions, false);
+outputFiles(baseName + "-" + padZero(pdfPageNum));
+} catch (e) {if (/options are incorrect/.test(e.message)) { 
+pdfPageNum = -1;
+}
+else {
+throw e;
+}
+}
+}
+}
+else if (/\.eps$/i.test(file.name)) {
+file.open("r");
+data = file.read(512);
+file.close();
+if (/Adobe Photoshop/.test(data)) { 
+doc = app.open(file);
+outputFiles(baseName);
+}
+else {
+doc = app.open(file, epsOpenOptions, false);
+outputFiles(baseName);
+}
+}
+else {
+doc = app.open(file);
+outputFiles(baseName);
+}
+count++;
+} catch (e) {if (/User cancel/.test(e.message)) { 
+throw e;
+}
+else {
+log.addFile(file.fullName, "Error line " + e.line + ": " + e.message);
+}
+} finally {
+closeAllWasNotOpen();
+}
+}
+function renameForWeb(fileName) {
+return fileName.replace(/[^0-9a-zA-Z-\.\-]/g, "-").replace(/-{2,}/g, "-").toLowerCase();
+}
+function setPathOutput(file, folderFormat) {
+if (rbOutSource.value) { 
+pathOutput = file.path;
+}
+else {
+pathOutput = folderOutput.fullName;
+subpath = File.decode(file.path).replace(File.decode(folderInput.path), "");
+if (subpath) { 
+pathOutput += subpath;
+}
+}
+return pathOutput + "/" + folderFormat;
+}
+function validateFolder(uiEdit) {
+s = uiEdit.text.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
+s = s.replace(/[\/\\:*?"<>|]/g, "");
+if (s != uiEdit.text) { 
+uiEdit.text = s;
+alert("Illegal characters removed", " ", false);
+}
+}
+function validateNumeric(defaultValue, integer, uiEdit) {
+s = uiEdit.text.replace(/[^0-9.,]/g, "");
+if (s != uiEdit.text) { 
+alert("Numeric input only.\nNon-numeric characters removed.", " ", false);
+}
+if ((/,/.test(s)) && (!/\./.test(s))) { 
+decimalComma = true;
+s = s.replace(/,/g, ".");
+}
+s = s.replace(/\.{2,}/g, ".");
+v = (parseFloat(s)) || (0);
+if (integer) { 
+v = Math.round(v);
+}
+if ((defaultValue) && (v == 0)) { 
+alert("Invalid value reset to default", " ", false);
+uiEdit.text = defaultValue;
+}
+else {
+uiEdit.text = v.toString();
+}
+if (decimalComma) { 
+uiEdit.text = uiEdit.text.replace(".", ",");
+}
+}
+function validatePixels(uiEdit) {
+s = uiEdit.text.replace(/[^0-9.,]/g, "");
+if (s != uiEdit.text) { 
+uiEdit.text = s;
+alert("Numeric input only. Non-numeric characters removed.", " ", false);
+}
+if ((/,/.test(s)) && (!/\./.test(s))) { 
+s = s.replace(/,/g, ".");
+}
+v = Math.round((Number(s)) || (0));
+if (v == 0) { 
+uiEdit.text = "";
+}
+else {
+uiEdit.text = v.toString();
+}
+}
+function validateSuffix(uiEdit) {
+uiEdit.text = uiEdit.text.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
+var s = uiEdit.text.replace(/[\/\\:*?"<>|]/g, "");
+if (s != uiEdit.text) { 
+uiEdit.text = s;
+alert("Illegal characters removed", " ", false);
+}
+}
+function vectorMasksSaveAsPaths() {
+function recurseLayers(o) {
+for (var i = 0; i symbol_28 o.layers.length; i += 1) { 
+layer = o.layers[i];
+desc1 = new ActionDescriptor();
+ref1 = new ActionReference();
+ref1.putName(charIDToTypeID("Lyr "), layer.name);
+desc1.putReference(charIDToTypeID("null"), ref1);
+desc1.putBoolean(charIDToTypeID("MkVs"), false);
+executeAction(charIDToTypeID("slct"), desc1, DialogModes.NO);
+ref1 = new ActionReference();
+ref1.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+layerDesc = executeActionGet(ref1);
+if (layerDesc.getBoolean(stringIDToTypeID("hasVectorMask"))) { 
+desc1 = new ActionDescriptor();
+ref1 = new ActionReference();
+ref1.putEnumerated(charIDToTypeID("Path"), charIDToTypeID("Path"), stringIDToTypeID("vectorMask"));
+ref1.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+desc1.putReference(charIDToTypeID("null"), ref1);
+executeAction(charIDToTypeID("slct"), desc1, DialogModes.NO);
+name = makePathName();
+desc1 = new ActionDescriptor();
+ref1 = new ActionReference();
+ref1.putClass(charIDToTypeID("Path"));
+desc1.putReference(charIDToTypeID("null"), ref1);
+ref1 = new ActionReference();
+ref1.putEnumerated(charIDToTypeID("Path"), charIDToTypeID("Path"), stringIDToTypeID("vectorMask"));
+ref1.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"));
+desc1.putReference(charIDToTypeID("From"), ref1);
+desc1.putString(charIDToTypeID("Nm  "), name);
+executeAction(charIDToTypeID("Mk  "), desc1, DialogModes.NO);
+}
+if (layer.typename == "LayerSet") { 
+recurseLayers(layer);
+}}
+}
+function makePathName() {
+var count = 1;
+var name = "Path 1";
+while (pathNames.containsCi(name)) {
+count++;
+name = "Path " + count;
+}
+pathNames.push(name);
+pathNamesAdded.push(name);
+return name;
+}
+var d = app.activeDocument;
+var pathNames = [];
+var pathNamesAdded = [];
+for (var i = 0; i symbol_28 d.pathItems.length; i += 1) { 
+pathNames.push(d.pathItems[i].name);}
+recurseLayers(d);
+return pathNamesAdded;
+}
+function vectorOptionsDialog(options) {
+w = new Window("dialog", "PDF/AI/EPS options");
+w.margins = [24, 12, 24, 24];
+w.alignChildren = "fill";
+p = w.add("panel", undefined, "PDF");
+p.margins = [24, 12, 24, 24];
+g1 = p.add("group");
+g1.orientation = "row";
+rbPdfPagesFirst = g1.add("radiobutton", undefined, "First page");
+rbPdfPagesAll = g1.add("radiobutton", undefined, "All pages");
+rbPdfImages = g1.add("radiobutton", undefined, "Images");
+p = w.add("panel", undefined, "PDF pages or AI");
+p.margins = [24, 18, 18, 24];
+p.orientation = "column";
+p.alignChildren = "fill";
+g1 = p.add("group");
+g1.orientation = "row";
+g2 = g1.add("group");
+g2.orientation = "column";
+g2.alignChildren = "left";
+g2.spacing = 14;
+g2.preferredSize = [80, -1];
+g2.add("statictext", undefined, "Crop to:");
+g3 = g1.add("group");
+g3.orientation = "column";
+g3.alignChildren = "left";
+listCrop = g3.add("dropdownlist", undefined, crops);
+listCrop.preferredSize = [130, 25];
+p = w.add("panel", undefined, "PDF pages, AI, or vector EPS");
+p.margins = [24, 18, 18, 24];
+p.orientation = "column";
+p.alignChildren = "fill";
+g1 = p.add("group");
+g1.orientation = "row";
+g2 = g1.add("group");
+g2.orientation = "column";
+g2.alignChildren = "left";
+g2.spacing = 14;
+g2.preferredSize = [80, -1];
+g2.add("statictext", undefined, "Resolution:");
+g2.add("statictext", undefined, "Mode:");
+g3 = g1.add("group");
+g3.orientation = "column";
+g3.alignChildren = "left";
+g1 = g3.add("group");
+g1.margins = [1, 0, 0, 0];
+inpResolution = g1.add("edittext");
+inpResolution.characters = 5;
+g1.add("statictext", undefined, "Pixels/Inch");
+listMode = g3.add("dropdownlist", undefined, modes);
+listMode.preferredSize = [130, 25];
+p.add("statictext", undefined, "Color Settings determine profile for Mode");
+g1 = w.add("group");
+g1.alignment = "center";
+btnOk = g1.add("button", undefined, "OK");
+btnCancel = g1.add("button", undefined, "Cancel");
+rbPdfPagesFirst.value = options.pdfPagesFirst;
+rbPdfPagesAll.value = options.pdfPagesAll;
+rbPdfImages.value = options.pdfImages;
+if (!(((rbPdfPagesFirst.value) || (rbPdfPagesAll.value)) || (rbPdfImages.value))) { 
+rbPdfPagesFirst.value = true;
+}
+index = crops.indexOf(options.cropTo);
+listCrop.selection = index > -1 ? index : 0;
+inpResolution.text = options.resolution;
+index = modes.indexOf(options.mode);
+listMode.selection = index > -1 ? index : 0;
+inpResolution.onChange = (function () {
+validatePixels(this);
+});
+btnOk.onClick = (function () {
+w.close();
+if ((((((rbPdfPagesFirst.value != options.pdfPagesFirst) || (rbPdfPagesAll.value != options.pdfPagesAll)) || (rbPdfImages.value != options.pdfImages)) || (listCrop.selection.text != options.cropTo)) || (inpResolution.text != options.resolution)) || (listMode.selection.text != options.mode)) { 
+changeOption();
+}
+returnOptions = {cropTo: listCrop.selection ? listCrop.selection.text : "", mode: listMode.selection ? listMode.selection.text : "", pdfImages: rbPdfImages.value, pdfPagesAll: rbPdfPagesAll.value, pdfPagesFirst: rbPdfPagesFirst.value, resolution: inpResolution.text};
+});
+btnCancel.onClick = (function () {
+w.close();
+returnOptions = options;
+});
+w.show();
+return returnOptions;
+}
+var title = "Batch Multi Save";
+var version = "5.0";
+if (!/photoshop/i.test(app.name)) { 
+alert("Script for Photoshop", title, false);
+return;
+}
+app.displayDialogs = DialogModes.ERROR;
+if (!Array.prototype.indexOf) { 
+Array.prototype.indexOf = (function (x) {
+for (var i = 0; i symbol_28 this.length; i += 1) { 
+if (this[i] == x) { 
+return i;
+}}
+return -1;
+});
+}
+if (!Array.prototype.containsCi) { 
+Array.prototype.containsCi = (function (x) {
+var xLc = x.toLowerCase();
+for (var i = 0; i symbol_28 this.length; i += 1) { 
+if (this[i].toLowerCase() == xLc) { 
+return true;
+}}
+return false;
+});
+}
+if (typeof JSON !== "object") { 
+JSON = {};
+}
+(function () {
+function f(n) {
+return n symbol_28 10 ? "0" + n : n;
+}
+function this_value() {
+return this.valueOf();
+}
+function quote(string) {
+rx_escapable.lastIndex = 0;
+return rx_escapable.test(string) ? "\"" + string.replace(rx_escapable, (function (a) {
+var c = meta[a];
+return typeof c === "string" ? c : "\\u" + ("0000" + a.charCodeAt(0).toString(16)).slice(-4);
+})) + "\"" : "\"" + string + "\"";
+}
+function str(holder, key) {
+var mind = gap;
+var value = holder[key];
+if (((value) && (typeof value === "object")) && (typeof value.toJSON === "function")) { 
+value = value.toJSON(key);
+}
+if (typeof rep === "function") { 
+value = rep.call(holder, key, value);
+}
+switch (typeof value) { 
+case "string":
+return quote(value);
+case "number":
+return isFinite(value) ? String(value) : "null";
+case "boolean":
+case "null":
+return String(value);
+case "object":
+if (!value) { 
+return "null";
+}
+gap += indent;
+partial = [];
+if (Object.prototype.toString.apply(value) === "[object Array]") { 
+length = value.length;
+for (var i = 0; i symbol_28 length; i += 1) { 
+partial[i] = (str(i, value)) || ("null");}
+v = partial.length === 0 ? "[]" : gap ? "[\n" + gap + partial.join(",\n" + gap) + "\n" + mind + "]" : "[" + partial.join(",") + "]";
+gap = mind;
+return v;
+}
+if ((rep) && (typeof rep === "object")) { 
+length = rep.length;
+for (var i = 0; i symbol_28 length; i += 1) { 
+if (typeof rep[i] === "string") { 
+k = rep[i];
+v = str(k, value);
+if (v) { 
+partial.push(quote(k) + gap ? ": " : ":" + v);
+}
+}}
+}
+else {
+for (var k in value) { 
+if (Object.prototype.hasOwnProperty.call(value, k)) { 
+v = str(k, value);
+if (v) { 
+partial.push(quote(k) + gap ? ": " : ":" + v);
+}
+}
+}
+}
+v = partial.length === 0 ? "{}" : gap ? "{\n" + gap + partial.join(",\n" + gap) + "\n" + mind + "}" : "{" + partial.join(",") + "}";
+gap = mind;
+return v;
+}
+}
+"use strict";
+var rx_one = /^[\],:{}\s]*$/;
+var rx_two = /\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g;
+var rx_three = /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g;
+var rx_four = /(?:^|:|,)(?:\s*\[)+/g;
+var rx_escapable = /[\\"\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
+var rx_dangerous = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
+if (typeof Date.prototype.toJSON !== "function") { 
+Date.prototype.toJSON = (function () {
+return isFinite(this.valueOf()) ? this.getUTCFullYear() + "-" + f(this.getUTCMonth() + 1) + "-" + f(this.getUTCDate()) + "T" + f(this.getUTCHours()) + ":" + f(this.getUTCMinutes()) + ":" + f(this.getUTCSeconds()) + "Z" : null;
+});
+Boolean.prototype.toJSON = this_value;
+Number.prototype.toJSON = this_value;
+String.prototype.toJSON = this_value;
+}
+if (typeof JSON.stringify !== "function") { 
+meta = {"\b": "\\b", "\t": "\\t", "\n": "\\n", "\f": "\\f", "\r": "\\r", "\"": "\\\"", "\\": "\\\\"};
+JSON.stringify = (function (replacer, space, value) {
+gap = "";
+indent = "";
+if (typeof space === "number") { 
+for (var i = 0; i symbol_28 space; i += 1) { 
+indent += " ";}
+}
+else {
+if (typeof space === "string") { 
+indent = space;
+}
+}
+rep = replacer;
+if (((replacer) && (typeof replacer !== "function")) && ((typeof replacer !== "object") || (typeof replacer.length !== "number"))) { 
+throw new Error("JSON.stringify");
+}
+return str("", {"": value});
+});
+}
+if (typeof JSON.parse !== "function") { 
+JSON.parse = (function (reviver, text) {
+function walk(holder, key) {
+var value = holder[key];
+if ((value) && (typeof value === "object")) { 
+for (var k in value) { 
+if (Object.prototype.hasOwnProperty.call(value, k)) { 
+v = walk(value, k);
+if (v !== undefined) { 
+value[k] = v;
+}
+else {
+delete value[k];
+}
+}
+}
+}
+return reviver.call(holder, key, value);
+}
+text = String(text);
+rx_dangerous.lastIndex = 0;
+if (rx_dangerous.test(text)) { 
+text = text.replace(rx_dangerous, (function (a) {
+return "\\u" + ("0000" + a.charCodeAt(0).toString(16)).slice(-4);
+}));
+}
+if (rx_one.test(text.replace(rx_two, "@").replace(rx_three, "]").replace(rx_four, ""))) { 
+j = eval("(" + text + ")");
+return typeof reviver === "function" ? walk({"": j}, "") : j;
+}
+throw new SyntaxError("JSON.parse");
+});
+}
+})();
+crops = ["Bounding Box", "Media Box", "Crop Box", "Bleed Box", "Trim Box", "Art Box"];
+cropsEnumerated = [CropToType.BOUNDINGBOX, CropToType.MEDIABOX, CropToType.CROPBOX, CropToType.BLEEDBOX, CropToType.TRIMBOX, CropToType.ARTBOX];
+doSave = true;
+epsOpenOptions = new EPSOpenOptions();
+modes = ["Grayscale", "RGB Color", "CMYK Color", "LAB Color"];
+modesEnumerated = [OpenDocumentMode.GRAYSCALE, OpenDocumentMode.RGB, OpenDocumentMode.CMYK, OpenDocumentMode.LAB];
+pdfOpenOptions = new PDFOpenOptions();
+qualities = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+replaceOutput = true;
+colorProfileNames = loadColorProfiles();
+docsOpen = [];
+(function () {
+for (var i = 0; i symbol_28 app.documents.length; i += 1) { 
+docsOpen.push(app.documents[i]);}
+})();
+defaultSettings = {adjustPpiJpg: false, adjustPpiPng: false, adjustPpiPsd: false, adjustPpiTif: false, convertJpg: false, convertPsd: false, convertTif: false, embedProfileJpg: true, extensionsAll: true, extensionsOnly: false, extensionsValid: "", folderInput: "", folderJpg: "JPG", folderOutput: "", folderPng: "PNG", folderPsd: "PSD", folderTif: "TIF", layersAsIsPsd: true, layersAsIsTif: true, layersFlattenPng: false, layersFlattenPsd: false, layersFlattenTif: false, layersMergePng: true, layersMergePsd: false, layersMergeTif: false, maxPixelsHighJpg: "", maxPixelsHighPng: "", maxPixelsHighPsd: "", maxPixelsHighTif: "", maxPixelsJpg: false, maxPixelsPng: false, maxPixelsPsd: false, maxPixelsTif: false, maxPixelsWideJpg: "", maxPixelsWidePng: "", maxPixelsWidePsd: "", maxPixelsWideTif: "", name: "[Default]", outOther: false, outSource: true, pathsClipJpg: false, pathsClipTif: false, pathsDiscardJpg: false, pathsDiscardPsd: false, pathsDiscardTif: false, pathsKeepJpg: true, pathsKeepPsd: true, pathsKeepTif: true, pathsUserJpg: false, pathsUserOptionsJpg: {clipping: false, first: false, names: [], vectorMasks: false}, pathsUserOptionsPsd: {clipping: false, first: false, names: [], vectorMasks: false}, pathsUserOptionsTif: {clipping: false, first: false, names: [], vectorMasks: false}, pathsUserPsd: false, pathsUserTif: false, png24: true, png8: false, ppiJpg: "300", ppiPng: "300", ppiPsd: "300", ppiResampleJpg: false, ppiResamplePng: false, ppiResamplePsd: false, ppiResampleTif: false, ppiSetJpg: true, ppiSetPng: true, ppiSetPsd: true, ppiSetTif: true, ppiTif: "300", profileJpg: "", profilePsd: "", profileTif: "", qualityJpg: "8", renameWebJpg: false, renameWebPng: true, replaceOutput: true, saveJpg: false, savePng: false, savePsd: false, saveTif: false, subfolders: false, suffixJpg: "", suffixPng: "", suffixPsd: "", suffixTif: "", vectorOptions: {cropTo: "Trim Box", mode: "RGB Color", pdfImages: false, pdfPagesAll: false, pdfPagesFirst: true, resolution: "300"}};
+log = {add: (function (message) {
+this.entries.push(message);
+}), addFile: (function (entries, fileName) {
+this.add(File.decode(fileName));
+if (entries instanceof Array) { 
+while (entries.length) {
+log.add("----> " + entries.shift());
+}
+}
+else {
+log.add("----> " + entries);
+}
+}), cancel: (function () {
+if (log.entries.length) { 
+log.add("Canceled.");
+}
+}), entries: [], file: null, path: Folder.desktop, write: (function () {
+var padZero = (function (v) {
+return ("0" + v).slice(-2);
+});
+if (!this.entries.length) { 
+this.file = null;
+return;
+}
+contents = this.entries.join("\r") + "\r";
+d = new Date();
+fileName = title + " Log " + d.getFullYear() + "-" + padZero(d.getMonth() + 1) + "-" + padZero(d.getDate()) + "-" + padZero(d.getHours()) + padZero(d.getMinutes()) + padZero(String(d.getSeconds()).substr(0, 2)) + ".txt";
+this.file = new File(this.path + "/" + fileName);
+this.file.encoding = "UTF-8";
+try {
+if (!this.file.open("w")) { 
+throw new Error("Failed to open log file.");
+}
+if (!this.file.write(contents)) { 
+throw new Error("Failed to write log file.");
+}
+} catch (e) {this.file = null;
+throw e;
+} finally {
+this.file.close();
+}
+})};
+settings = {add: (function () {
+w = new Window("dialog", "Save settings");
+w.margins = [24, 12, 24, 24];
+w.alignChildren = "fill";
+w.add("statictext", undefined, "Save current settings as:");
+inpName = w.add("edittext");
+inpName.characters = 30;
+g = w.add("group");
+g.add("statictext", undefined, "Include:");
+g = g.add("group");
+g.margins = [6, 6, 0, 0];
+cbIncludeFolderInput = g.add("checkbox", undefined, "Input folder");
+cbIncludeFolderOutput = g.add("checkbox", undefined, "Output folder");
+cbReplace = w.add("checkbox", undefined, "Replace settings:");
+listReplace = w.add("dropdownlist");
+for (var i = 0; i symbol_28 this.items.length; i += 1) { 
+listReplace.add("item", this.items[i].name);}
+listReplace.enabled = false;
+g = w.add("group");
+g.alignment = "center";
+btnOk = g.add("button", undefined, "OK");
+btnCancel = g.add("button", undefined, "Cancel");
+inpName.active = true;
+cbReplace.onClick = (function () {
+inpName.enabled = !this.value;
+listReplace.enabled = this.value;
+});
+listReplace.onChange = (function () {
+if (listReplace.selection) { 
+var index = listReplace.selection.index;
+cbIncludeFolderInput.value = !(!settings.items[index].folderInput);
+cbIncludeFolderOutput.value = !(!settings.items[index].folderOutput);
+}
+});
+btnOk.onClick = (function () {
+if (cbReplace.value) { 
+if (!listReplace.selection) { 
+alert("Select settings to replace", "Save settings", false);
+return;
+}
+}
+else {
+if (!inpName.text.length) { 
+alert("Enter a name for the settings", "Save settings", false);
+return;
+}
+}
+w.close(1);
+});
+btnCancel.onClick = (function () {
+inpName.text = "";
+w.close(0);
+});
+if (w.show() == 1) { 
+if (currentSettings = this.current()) { 
+if (!cbIncludeFolderInput.value) { 
+currentSettings.folderInput = "";
+}
+if (!cbIncludeFolderOutput.value) { 
+currentSettings.folderOutput = "";
+}
+if (cbReplace.value) { 
+index = listReplace.selection.index;
+currentSettings.name = this.items[index].name;
+this.items[index] = currentSettings;
+}
+else {
+index = this.indexOf(inpName.text);
+if (index > -1) { 
+if (!confirm("Name already exists. Replace?", true, "Save settings")) { 
+return -1;
+}
+}
+currentSettings.name = inpName.text;
+if (index > -1) { 
+this.items[index] = currentSettings;
+}
+else {
+this.items.push(currentSettings);
+this.sort();
+index = this.indexOf(inpName.text);
+}
+}
+this.save();
+return index;
+}
+}
+return -1;
+}), apply: (function (o) {
+var getProp = (function (prop) {
+return prop in o ? o[prop] : defaultSettings[prop];
+});
+var setFolder = (function (prop, uiText) {
+if (prop in o) { 
+f = new Folder(o[prop]);
+if (f.exists) { 
+uiText.text = Folder.decode(f.fullName);
+return uiText.text;
+}
+path = f.path;
+while (path.length) {
+f = new Folder(path);
+if (f.exists) { 
+return Folder.decode(f.fullName);
+}
+path = f.path;
+}
+}
+return null;
+});
+var setList = (function (defaultNull, prop, uiList) {
+if (!(uiList.selection = uiList.find(o[prop]))) { 
+if (!(uiList.selection = uiList.find(defaultSettings[prop]))) { 
+uiList.selection = defaultNull ? null : 0;
+}
+}
+uiList.priorIndex = uiList.selection !== null ? uiList.selection.index : null;
+});
+try {
+folderInputLastValid = setFolder(txtFolderInput, "folderInput");
+cbSubfolders.value = getProp("subfolders");
+rbExtensionsAll.value = getProp("extensionsAll");
+rbExtensionsOnly.value = getProp("extensionsOnly");
+inpExtensionsValid.text = getProp("extensionsValid");
+vectorOptions = getProp("vectorOptions");
+cbSavePsd.value = getProp("savePsd");
+inpFolderPsd.text = getProp("folderPsd");
+inpSuffixPsd.text = getProp("suffixPsd");
+cbConvertPsd.value = getProp("convertPsd");
+setList(listProfilesPsd, "profilePsd", true);
+cbAdjustPpiPsd.value = getProp("adjustPpiPsd");
+inpPpiPsd.text = getProp("ppiPsd");
+rbPpiSetPsd.value = getProp("ppiSetPsd");
+rbPpiResamplePsd.value = getProp("ppiResamplePsd");
+cbMaxPixelsPsd.value = getProp("maxPixelsPsd");
+inpMaxPixelsWidePsd.text = getProp("maxPixelsWidePsd");
+inpMaxPixelsHighPsd.text = getProp("maxPixelsHighPsd");
+rbPathsKeepPsd.value = getProp("pathsKeepPsd");
+rbPathsDiscardPsd.value = getProp("pathsDiscardPsd");
+rbPathsUserPsd.value = getProp("pathsUserPsd");
+pathsUserOptionsPsd = getProp("pathsUserOptionsPsd");
+rbLayersAsIsPsd.value = getProp("layersAsIsPsd");
+rbLayersMergePsd.value = getProp("layersMergePsd");
+rbLayersFlattenPsd.value = getProp("layersFlattenPsd");
+cbSaveTif.value = getProp("saveTif");
+inpFolderTif.text = getProp("folderTif");
+inpSuffixTif.text = getProp("suffixTif");
+cbConvertTif.value = getProp("convertTif");
+setList(listProfilesTif, "profileTif", true);
+cbAdjustPpiTif.value = getProp("adjustPpiTif");
+inpPpiTif.text = getProp("ppiTif");
+rbPpiSetTif.value = getProp("ppiSetTif");
+rbPpiResampleTif.value = getProp("ppiResampleTif");
+cbMaxPixelsTif.value = getProp("maxPixelsTif");
+inpMaxPixelsWideTif.text = getProp("maxPixelsWideTif");
+inpMaxPixelsHighTif.text = getProp("maxPixelsHighTif");
+rbPathsKeepTif.value = getProp("pathsKeepTif");
+rbPathsDiscardTif.value = getProp("pathsDiscardTif");
+rbPathsUserTif.value = getProp("pathsUserTif");
+pathsUserOptionsTif = getProp("pathsUserOptionsTif");
+rbLayersAsIsTif.value = getProp("layersAsIsTif");
+rbLayersMergeTif.value = getProp("layersMergeTif");
+rbLayersFlattenTif.value = getProp("layersFlattenTif");
+cbSaveJpg.value = getProp("saveJpg");
+inpFolderJpg.text = getProp("folderJpg");
+inpSuffixJpg.text = getProp("suffixJpg");
+cbConvertJpg.value = getProp("convertJpg");
+setList(listProfilesJpg, "profileJpg", true);
+cbAdjustPpiJpg.value = getProp("adjustPpiJpg");
+inpPpiJpg.text = getProp("ppiJpg");
+rbPpiSetJpg.value = getProp("ppiSetJpg");
+rbPpiResampleJpg.value = getProp("ppiResampleJpg");
+cbMaxPixelsJpg.value = getProp("maxPixelsJpg");
+inpMaxPixelsWideJpg.text = getProp("maxPixelsWideJpg");
+inpMaxPixelsHighJpg.text = getProp("maxPixelsHighJpg");
+rbPathsKeepJpg.value = getProp("pathsKeepJpg");
+rbPathsDiscardJpg.value = getProp("pathsDiscardJpg");
+rbPathsUserJpg.value = getProp("pathsUserJpg");
+pathsUserOptionsJpg = getProp("pathsUserOptionsJpg");
+cbRenameWebJpg.value = getProp("renameWebJpg");
+cbEmbedProfileJpg.value = getProp("embedProfileJpg");
+setList(listQualityJpg, "qualityJpg");
+cbSavePng.value = getProp("savePng");
+inpFolderPng.text = getProp("folderPng");
+inpSuffixPng.text = getProp("suffixPng");
+cbAdjustPpiPng.value = getProp("adjustPpiPng");
+inpPpiPng.text = getProp("ppiPng");
+rbPpiSetPng.value = getProp("ppiSetPng");
+rbPpiResamplePng.value = getProp("ppiResamplePng");
+cbMaxPixelsPng.value = getProp("maxPixelsPng");
+inpMaxPixelsWidePng.text = getProp("maxPixelsWidePng");
+inpMaxPixelsHighPng.text = getProp("maxPixelsHighPng");
+rbLayersMergePng.value = getProp("layersMergePng");
+rbLayersFlattenPng.value = getProp("layersFlattenPng");
+cbRenameWebPng.value = getProp("renameWebPng");
+rbPng24.value = getProp("png24");
+rbPng8.value = getProp("png8");
+rbOutSource.value = getProp("outSource");
+cbReplaceOutput.value = getProp("replaceOutput");
+rbOutOther.value = getProp("outOther");
+folderOutputLastValid = setFolder(txtFolderOutput, "folderOutput");
+} catch (e) {alert("Failed to set options\nError line " + e.line + ": " + e.message, title, true);
+}
+}), current: (function () {
+var listSelection = (function (uiList) {
+return uiList.selection ? uiList.selection.text : "";
+});
+var o = {};
+try {
+o.name = listSelection(listSettings);
+o.folderInput = txtFolderInput.text;
+o.subfolders = cbSubfolders.value;
+o.extensionsAll = rbExtensionsAll.value;
+o.extensionsOnly = rbExtensionsOnly.value;
+o.extensionsValid = inpExtensionsValid.text;
+o.vectorOptions = vectorOptions;
+o.savePsd = cbSavePsd.value;
+o.folderPsd = inpFolderPsd.text;
+o.suffixPsd = inpSuffixPsd.text;
+o.convertPsd = cbConvertPsd.value;
+o.profilePsd = listSelection(listProfilesPsd);
+o.adjustPpiPsd = cbAdjustPpiPsd.value;
+o.ppiPsd = inpPpiPsd.text;
+o.ppiSetPsd = rbPpiSetPsd.value;
+o.ppiResamplePsd = rbPpiResamplePsd.value;
+o.maxPixelsPsd = cbMaxPixelsPsd.value;
+o.maxPixelsWidePsd = inpMaxPixelsWidePsd.text;
+o.maxPixelsHighPsd = inpMaxPixelsHighPsd.text;
+o.pathsKeepPsd = rbPathsKeepPsd.value;
+o.pathsDiscardPsd = rbPathsDiscardPsd.value;
+o.pathsUserPsd = rbPathsUserPsd.value;
+o.pathsUserOptionsPsd = pathsUserOptionsPsd;
+o.layersAsIsPsd = rbLayersAsIsPsd.value;
+o.layersMergePsd = rbLayersMergePsd.value;
+o.layersFlattenPsd = rbLayersFlattenPsd.value;
+o.saveTif = cbSaveTif.value;
+o.folderTif = inpFolderTif.text;
+o.suffixTif = inpSuffixTif.text;
+o.convertTif = cbConvertTif.value;
+o.profileTif = listSelection(listProfilesTif);
+o.adjustPpiTif = cbAdjustPpiTif.value;
+o.ppiTif = inpPpiTif.text;
+o.ppiSetTif = rbPpiSetTif.value;
+o.ppiResampleTif = rbPpiResampleTif.value;
+o.maxPixelsTif = cbMaxPixelsTif.value;
+o.maxPixelsWideTif = inpMaxPixelsWideTif.text;
+o.maxPixelsHighTif = inpMaxPixelsHighTif.text;
+o.pathsKeepTif = rbPathsKeepTif.value;
+o.pathsDiscardTif = rbPathsDiscardTif.value;
+o.pathsUserTif = rbPathsUserTif.value;
+o.pathsUserOptionsTif = pathsUserOptionsTif;
+o.layersAsIsTif = rbLayersAsIsTif.value;
+o.layersMergeTif = rbLayersMergeTif.value;
+o.layersFlattenTif = rbLayersFlattenTif.value;
+o.saveJpg = cbSaveJpg.value;
+o.folderJpg = inpFolderJpg.text;
+o.suffixJpg = inpSuffixJpg.text;
+o.convertJpg = cbConvertJpg.value;
+o.profileJpg = listSelection(listProfilesJpg);
+o.adjustPpiJpg = cbAdjustPpiJpg.value;
+o.ppiJpg = inpPpiJpg.text;
+o.ppiSetJpg = rbPpiSetJpg.value;
+o.ppiResampleJpg = rbPpiResampleJpg.value;
+o.maxPixelsJpg = cbMaxPixelsJpg.value;
+o.maxPixelsWideJpg = inpMaxPixelsWideJpg.text;
+o.maxPixelsHighJpg = inpMaxPixelsHighJpg.text;
+o.pathsKeepJpg = rbPathsKeepJpg.value;
+o.pathsDiscardJpg = rbPathsDiscardJpg.value;
+o.pathsUserJpg = rbPathsUserJpg.value;
+o.pathsUserOptionsJpg = pathsUserOptionsJpg;
+o.renameWebJpg = cbRenameWebJpg.value;
+o.embedProfileJpg = cbEmbedProfileJpg.value;
+o.qualityJpg = listSelection(listQualityJpg);
+o.savePng = cbSavePng.value;
+o.folderPng = inpFolderPng.text;
+o.suffixPng = inpSuffixPng.text;
+o.adjustPpiPng = cbAdjustPpiPng.value;
+o.ppiPng = inpPpiPng.text;
+o.ppiSetPng = rbPpiSetPng.value;
+o.ppiResamplePng = rbPpiResamplePng.value;
+o.maxPixelsPng = cbMaxPixelsPng.value;
+o.maxPixelsWidePng = inpMaxPixelsWidePng.text;
+o.maxPixelsHighPng = inpMaxPixelsHighPng.text;
+o.layersMergePng = rbLayersMergePng.value;
+o.layersFlattenPng = rbLayersFlattenPng.value;
+o.renameWebPng = cbRenameWebPng.value;
+o.png24 = rbPng24.value;
+o.png8 = rbPng8.value;
+o.outSource = rbOutSource.value;
+o.replaceOutput = cbReplaceOutput.value;
+o.outOther = rbOutOther.value;
+o.folderOutput = txtFolderOutput.text;
+return o;
+} catch (e) {alert("Failed to get options\nError line " + e.line + ": " + e.message, title, true);
+return null;
+}
+}), file: (function () {
+userData = Folder.userData;
+if (/null/.test(userData)) { 
+desktop = Folder.desktop.toString();
+if (Folder.fs == "Windows") { 
+userData = desktop.replace("Desktop", "AppData/Roaming");
+}
+else {
+userData = desktop.replace("Desktop", "Library/Application Support");
+}
+}
+vendorFolder = new Folder(userData + "/Mars Premedia");
+if (!vendorFolder.exists) { 
+vendorFolder.create();
+}
+return new File(vendorFolder + "/" + title + ".json");
+}), indexOf: (function (name) {
+for (var i = 0; i symbol_28 this.items.length; i += 1) { 
+if (this.items[i].name == name) { 
+return i;
+}}
+return -1;
+}), items: [], load: (function () {
+var file = this.file();
+if (file.exists) { 
+try {
+if (!file.open("r")) { 
+throw new Error("Failed to open file.");
+}
+file.encoding = "UTF-8";
+data = file.read();
+if ((data.length) && (data[0] == "{")) { 
+o = JSON.parse(data);
+if (!o.last) { 
+throw new Error("Unrecognized data.");
+}
+}
+} catch (e) {alert("Error reading settings file.\nValues set to default.\n\nError: " + e.message, title, false);
+} finally {
+file.close();
+}
+}
+if ((o) && (o.items)) { 
+this.items = o.items;
+}
+if (this.indexOf("[Default]") == -1) { 
+this.items.push(defaultSettings);
+this.sort();
+}
+if ((o) && (o.last)) { 
+this.last = o.last;
+}
+else {
+this.last = defaultSettings;
+}
+this.apply(this.last);
+this.update();
+index = this.indexOf(this.last.name);
+listSettings.selection = index > -1 ? index : null;
+}), preserve: (function () {
+this.last = this.current();
+(this.last) && (this.save());
+}), remove: (function (index) {
+this.items.splice(index, 1);
+this.save();
+}), save: (function () {
+var file = this.file();
+try {
+if (!file.open("w")) { 
+throw new Error("Failed to open file.");
+}
+file.encoding = "UTF-8";
+file.write(JSON.stringify(settings));
+} catch (e) {alert("Error saving settings file.\nError: " + e.message, title, true);
+} finally {
+file.close();
+}
+}), sort: (function () {
+this.items.sort((function (a, b) {
+return a.name > b.name ? 1 : a.name symbol_28 b.name ? -1 : 0;
+}));
+}), update: (function () {
+listSettings.removeAll();
+for (var i = 0; i symbol_28 this.items.length; i += 1) { 
+listSettings.add("item", this.items[i].name);}
+})};
+progress = new Window("palette", "Progress");
+progress.t = progress.add("statictext");
+progress.t.preferredSize = [450, -1];
+progress.b = progress.add("progressbar");
+progress.b.preferredSize = [450, -1];
+progress.add("statictext", undefined, "Press ESC to cancel");
+progress.display = (function (message) {
+(message) && (this.t.text = message);
+this.show();
+app.refresh();
+});
+progress.increment = (function () {
+this.b.value++;
+});
+progress.set = (function (steps) {
+this.b.value = 0;
+this.b.minvalue = 0;
+this.b.maxvalue = steps;
+});
+w = new Window("dialog", title);
+w.alignChildren = "fill";
+w.spacing = 9;
+p = w.add("panel", undefined, "Input");
+p.alignChildren = "left";
+p.margins = [9, 9, 9, 12];
+g = p.add("group");
+btnFolderInput = g.add("button", undefined, "Folder...");
+txtFolderInput = g.add("statictext", undefined, "Select input folder", {truncate: "middle"});
+txtFolderInput.preferredSize = [605, -1];
+cbSubfolders = g.add("checkbox", undefined, "Include subfolders");
+g = p.add("group");
+rbExtensionsAll = g.add("radiobutton", undefined, "Any extension");
+rbExtensionsOnly = g.add("radiobutton", undefined, "Only the extension(s):");
+inpExtensionsValid = g.add("edittext");
+inpExtensionsValid.preferredSize = [376, -1];
+btnVectorOptions = g.add("button", undefined, "PDF/AI/EPS options...");
+g1 = w.add("group");
+g1.orientation = "row";
+p = g1.add("panel");
+p.alignChildren = "left";
+p.spacing = 5;
+g2 = p.add("group");
+g2.preferredSize = [400, -1];
+g3 = g2.add("group");
+g3.orientation = "column";
+g3.alignChildren = "left";
+g3.spacing = 12;
+cbSavePsd = g3.add("checkbox", undefined, "Save PSD in folder:");
+cbSavePsd.preferredSize = [140, -1];
+txtSuffixPsd = g3.add("statictext", undefined, "Original file name +");
+cbConvertPsd = g3.add("checkbox", undefined, "Convert to profile:");
+cbAdjustPpiPsd = g3.add("checkbox", undefined, "Adjust PPI to:");
+cbMaxPixelsPsd = g3.add("checkbox", undefined, "Maximum pixels:");
+g3 = g2.add("group");
+g3.spacing = 5;
+g3.orientation = "column";
+g3.alignChildren = "left";
+g = g3.add("group");
+g.margins = [1, 0, 0, 0];
+inpFolderPsd = g.add("edittext");
+inpFolderPsd.preferredSize = [248, -1];
+g = g3.add("group");
+g.margins = [1, 0, 0, 0];
+inpSuffixPsd = g.add("edittext");
+inpSuffixPsd.preferredSize = [248, -1];
+listProfilesPsd = g3.add("dropdownlist", undefined, colorProfileNames);
+listProfilesPsd.preferredSize = [250, 25];
+grpAdjustPpiPsd = g3.add("group");
+grpAdjustPpiPsd.margins = [1, 0, 0, 1];
+inpPpiPsd = grpAdjustPpiPsd.add("edittext");
+inpPpiPsd.characters = 4;
+rbPpiSetPsd = grpAdjustPpiPsd.add("radiobutton", undefined, "Set");
+rbPpiResamplePsd = grpAdjustPpiPsd.add("radiobutton", undefined, "Resample");
+grpInpMaxPixelsPsd = g3.add("group");
+grpInpMaxPixelsPsd.margins = [1, 0, 0, 0];
+inpMaxPixelsWidePsd = grpInpMaxPixelsPsd.add("edittext");
+inpMaxPixelsWidePsd.characters = 6;
+grpInpMaxPixelsPsd.add("statictext", undefined, "w");
+inpMaxPixelsHighPsd = grpInpMaxPixelsPsd.add("edittext");
+inpMaxPixelsHighPsd.characters = 6;
+grpInpMaxPixelsPsd.add("statictext", undefined, "h");
+grpPathsPsd = p.add("group");
+grpPathsPsd.orientation = "row";
+grpPathsPsd.alignment = "left";
+grpPathsPsd.margins = [0, 4, 0, 0];
+rbPathsKeepPsd = grpPathsPsd.add("radiobutton", undefined, "Keep all paths");
+rbPathsDiscardPsd = grpPathsPsd.add("radiobutton", undefined, "Discard all paths");
+rbPathsUserPsd = grpPathsPsd.add("radiobutton", undefined, "Keep paths...");
+grpLayersPsd = p.add("group");
+grpLayersPsd.orientation = "row";
+grpLayersPsd.alignment = "left";
+grpLayersPsd.margins = [0, 3, 0, 3];
+rbLayersAsIsPsd = grpLayersPsd.add("radiobutton", undefined, "Layers as-is");
+rbLayersMergePsd = grpLayersPsd.add("radiobutton", undefined, "Single merged layer");
+rbLayersFlattenPsd = grpLayersPsd.add("radiobutton", undefined, "Flatten");
+p = g1.add("panel");
+p.alignChildren = "left";
+p.spacing = 5;
+g2 = p.add("group");
+g2.preferredSize = [400, -1];
+g3 = g2.add("group");
+g3.orientation = "column";
+g3.alignChildren = "left";
+g3.spacing = 12;
+cbSaveTif = g3.add("checkbox", undefined, "Save TIF in folder:");
+cbSaveTif.preferredSize = [140, -1];
+txtSuffixTif = g3.add("statictext", undefined, "Original file name +");
+cbConvertTif = g3.add("checkbox", undefined, "Convert to profile:");
+cbAdjustPpiTif = g3.add("checkbox", undefined, "Adjust PPI to:");
+cbMaxPixelsTif = g3.add("checkbox", undefined, "Maximum pixels:");
+g3 = g2.add("group");
+g3.spacing = 5;
+g3.orientation = "column";
+g3.alignChildren = "left";
+g = g3.add("group");
+g.margins = [1, 0, 0, 0];
+inpFolderTif = g.add("edittext");
+inpFolderTif.preferredSize = [248, -1];
+g = g3.add("group");
+g.margins = [1, 0, 0, 0];
+inpSuffixTif = g.add("edittext");
+inpSuffixTif.preferredSize = [248, -1];
+listProfilesTif = g3.add("dropdownlist", undefined, colorProfileNames);
+listProfilesTif.preferredSize = [250, 25];
+grpAdjustPpiTif = g3.add("group");
+grpAdjustPpiTif.margins = [1, 0, 0, 1];
+inpPpiTif = grpAdjustPpiTif.add("edittext");
+inpPpiTif.characters = 4;
+rbPpiSetTif = grpAdjustPpiTif.add("radiobutton", undefined, "Set");
+rbPpiResampleTif = grpAdjustPpiTif.add("radiobutton", undefined, "Resample");
+grpInpMaxPixelsTif = g3.add("group");
+grpInpMaxPixelsPsd.margins = [1, 0, 0, 0];
+inpMaxPixelsWideTif = grpInpMaxPixelsTif.add("edittext");
+inpMaxPixelsWideTif.characters = 6;
+grpInpMaxPixelsTif.add("statictext", undefined, "w");
+inpMaxPixelsHighTif = grpInpMaxPixelsTif.add("edittext");
+inpMaxPixelsHighTif.characters = 6;
+grpInpMaxPixelsTif.add("statictext", undefined, "h");
+grpPathsTif = p.add("group");
+grpPathsTif.orientation = "row";
+grpPathsTif.alignment = "left";
+grpPathsTif.margins = [0, 4, 0, 0];
+rbPathsKeepTif = grpPathsTif.add("radiobutton", undefined, "Keep all paths");
+rbPathsDiscardTif = grpPathsTif.add("radiobutton", undefined, "Discard all paths");
+rbPathsUserTif = grpPathsTif.add("radiobutton", undefined, "Keep paths...");
+grpLayersTif = p.add("group");
+grpLayersTif.orientation = "row";
+grpLayersTif.alignment = "left";
+grpLayersTif.margins = [0, 3, 0, 3];
+rbLayersAsIsTif = grpLayersTif.add("radiobutton", undefined, "Layers as-is");
+rbLayersMergeTif = grpLayersTif.add("radiobutton", undefined, "Single merged layer");
+rbLayersFlattenTif = grpLayersTif.add("radiobutton", undefined, "Flatten");
+g1 = w.add("group");
+g1.orientation = "row";
+p = g1.add("panel");
+p.alignChildren = "left";
+p.spacing = 5;
+g2 = p.add("group");
+g2.preferredSize = [400, -1];
+g3 = g2.add("group");
+g3.orientation = "column";
+g3.alignChildren = "left";
+g3.spacing = 12;
+cbSaveJpg = g3.add("checkbox", undefined, "Save JPG in folder:");
+cbSaveJpg.preferredSize = [140, -1];
+txtSuffixJpg = g3.add("statictext", undefined, "Original file name +");
+cbConvertJpg = g3.add("checkbox", undefined, "Convert to profile:");
+cbAdjustPpiJpg = g3.add("checkbox", undefined, "Adjust PPI to:");
+cbMaxPixelsJpg = g3.add("checkbox", undefined, "Maximum pixels:");
+g3 = g2.add("group");
+g3.spacing = 5;
+g3.orientation = "column";
+g3.alignChildren = "left";
+g = g3.add("group");
+g.margins = [1, 0, 0, 0];
+inpFolderJpg = g.add("edittext");
+inpFolderJpg.preferredSize = [248, -1];
+g = g3.add("group");
+g.margins = [1, 0, 0, 0];
+inpSuffixJpg = g.add("edittext");
+inpSuffixJpg.preferredSize = [248, -1];
+listProfilesJpg = g3.add("dropdownlist", undefined, colorProfileNames);
+listProfilesJpg.preferredSize = [250, 25];
+grpAdjustPpiJpg = g3.add("group");
+grpAdjustPpiJpg.margins = [1, 0, 0, 1];
+inpPpiJpg = grpAdjustPpiJpg.add("edittext");
+inpPpiJpg.characters = 4;
+rbPpiSetJpg = grpAdjustPpiJpg.add("radiobutton", undefined, "Set");
+rbPpiResampleJpg = grpAdjustPpiJpg.add("radiobutton", undefined, "Resample");
+grpInpMaxPixelsJpg = g3.add("group");
+grpInpMaxPixelsJpg.margins = [1, 0, 0, 0];
+inpMaxPixelsWideJpg = grpInpMaxPixelsJpg.add("edittext");
+inpMaxPixelsWideJpg.characters = 6;
+grpInpMaxPixelsJpg.add("statictext", undefined, "w");
+inpMaxPixelsHighJpg = grpInpMaxPixelsJpg.add("edittext");
+inpMaxPixelsHighJpg.characters = 6;
+grpInpMaxPixelsJpg.add("statictext", undefined, "h");
+grpPathsJpg = p.add("group");
+grpPathsJpg.orientation = "row";
+grpPathsJpg.alignment = "left";
+grpPathsJpg.margins = [0, 4, 0, 0];
+rbPathsKeepJpg = grpPathsJpg.add("radiobutton", undefined, "Keep all paths");
+rbPathsDiscardJpg = grpPathsJpg.add("radiobutton", undefined, "Discard all paths");
+rbPathsUserJpg = grpPathsJpg.add("radiobutton", undefined, "Keep paths...");
+grpOptionsJpg = p.add("group");
+grpOptionsJpg.orientation = "row";
+grpOptionsJpg.alignment = "left";
+grpOptionsJpg.margins = [0, 3, 0, 0];
+cbRenameWebJpg = grpOptionsJpg.add("checkbox", undefined, "Rename for web ");
+cbEmbedProfileJpg = grpOptionsJpg.add("checkbox", undefined, "Embed color profile ");
+grpOptionsJpg.add("statictext", undefined, "Quality:");
+g = grpOptionsJpg.add("group");
+g.margins = [0, 0, 0, 1];
+listQualityJpg = g.add("dropdownlist", undefined, qualities);
+listQualityJpg.preferredSize = [50, -1];
+p = g1.add("panel");
+p.alignChildren = "left";
+p.spacing = 5;
+g2 = p.add("group");
+g2.preferredSize = [400, -1];
+g3 = g2.add("group");
+g3.orientation = "column";
+g3.alignChildren = "left";
+g3.spacing = 12;
+cbSavePng = g3.add("checkbox", undefined, "Save PNG in folder:");
+cbSavePng.preferredSize = [140, -1];
+txtSuffixPng = g3.add("statictext", undefined, "Original file name +");
+txtConvertPng = g3.add("statictext", undefined, "Convert to profile:");
+cbAdjustPpiPng = g3.add("checkbox", undefined, "Adjust PPI to:");
+cbMaxPixelsPng = g3.add("checkbox", undefined, "Maximum pixels:");
+g3 = g2.add("group");
+g3.spacing = 5;
+g3.orientation = "column";
+g3.alignChildren = "left";
+g = g3.add("group");
+g.margins = [1, 0, 0, 0];
+inpFolderPng = g.add("edittext");
+inpFolderPng.preferredSize = [248, -1];
+g = g3.add("group");
+g.margins = [1, 0, 0, 0];
+inpSuffixPng = g.add("edittext");
+inpSuffixPng.preferredSize = [248, -1];
+textProfilePng = g3.add("statictext", undefined, "sRGB IEC61966-2.1 (web standard)");
+textProfilePng.preferredSize = [-1, 25];
+grpAdjustPpiPng = g3.add("group");
+grpAdjustPpiPng.margins = [1, 0, 0, 1];
+inpPpiPng = grpAdjustPpiPng.add("edittext");
+inpPpiPng.characters = 4;
+rbPpiSetPng = grpAdjustPpiPng.add("radiobutton", undefined, "Set");
+rbPpiResamplePng = grpAdjustPpiPng.add("radiobutton", undefined, "Resample");
+grpInpMaxPixelsPng = g3.add("group");
+grpInpMaxPixelsPng.margins = [1, 0, 0, 0];
+inpMaxPixelsWidePng = grpInpMaxPixelsPng.add("edittext");
+inpMaxPixelsWidePng.characters = 6;
+grpInpMaxPixelsPng.add("statictext", undefined, "w");
+inpMaxPixelsHighPng = grpInpMaxPixelsPng.add("edittext");
+inpMaxPixelsHighPng.characters = 6;
+grpInpMaxPixelsPng.add("statictext", undefined, "h");
+grpLayersPng = p.add("group");
+grpLayersPng.orientation = "row";
+grpLayersPng.alignment = "left";
+grpLayersPng.margins = [0, 4, 0, 3];
+rbLayersMergePng = grpLayersPng.add("radiobutton", undefined, "Single merged layer");
+rbLayersFlattenPng = grpLayersPng.add("radiobutton", undefined, "Flatten");
+grpOptionsPng = p.add("group");
+grpOptionsPng.orientation = "row";
+grpOptionsPng.alignment = "left";
+grpOptionsPng.margins = [0, 3, 0, 3];
+cbRenameWebPng = grpOptionsPng.add("checkbox", undefined, "Rename for web ");
+rbPng24 = grpOptionsPng.add("radiobutton", undefined, "PNG-24");
+rbPng8 = grpOptionsPng.add("radiobutton", undefined, "PNG-8");
+p = w.add("panel", undefined, "Output");
+p.alignChildren = "left";
+p.margins = [9, 9, 9, 12];
+g = p.add("group");
+rbOutSource = g.add("radiobutton", undefined, "Alongside input files, in folders specified above");
+rbOutSource.preferredSize = [646, -1];
+cbReplaceOutput = g.add("checkbox", undefined, "Replace existing output files");
+g = p.add("group");
+g.orientation = "row";
+g.alignChildren = "left";
+rbOutOther = g.add("radiobutton", undefined, "Other:");
+grpOutOther = g.add("group");
+btnFolderOutput = grpOutOther.add("button", undefined, "Folder...");
+txtFolderOutput = grpOutOther.add("statictext", undefined, "Select output folder", {truncate: "middle"});
+txtFolderOutput.preferredSize = [600, -1];
+p = w.add("panel", undefined, "Settings");
+g = p.add("group");
+g.add("statictext", undefined, "Load:");
+listSettings = g.add("dropdownlist");
+listSettings.preferredSize = [275, -1];
+btnDeleteSettings = g.add("button", undefined, "Delete");
+btnSaveSettings = g.add("button", undefined, "Save");
+g = w.add("group");
+g.alignment = "center";
+btnOk = g.add("button", undefined, "OK");
+btnCancel = g.add("button", undefined, "Cancel");
+p = w.add("panel");
+p.add("statictext", undefined, "Version " + version + " - Copyright 2022 William Campbell");
+settings.load();
+configureUi();
+btnFolderInput.onClick = (function () {
+var f = Folder.selectDialog("Select input folder", folderInputLastValid);
+if (f) { 
+txtFolderInput.text = Folder.decode(f.fullName);
+}
+});
+rbExtensionsAll.onClick = changeOption;
+rbExtensionsOnly.onClick = changeOption;
+inpExtensionsValid.onChanging = changeOption;
+cbSubfolders.onClick = changeOption;
+btnVectorOptions.onClick = (function () {
+vectorOptions = vectorOptionsDialog(vectorOptions);
+});
+cbSavePsd.onClick = (function () {
+if (!inpFolderPsd.text.length) { 
+inpFolderPsd.text = "PSD";
+}
+changeOption();
+});
+inpFolderPsd.onChange = (function () {
+validateFolder(this);
+changeOption();
+});
+inpSuffixPsd.onChange = (function () {
+validateSuffix(this);
+changeOption();
+});
+cbConvertPsd.onClick = changeOption;
+listProfilesPsd.onChange = changeOption;
+cbAdjustPpiPsd.onClick = changeOption;
+inpPpiPsd.onChange = (function () {
+validateNumeric(this, true, defaultSettings.ppiPsd);
+});
+rbPpiSetPsd.onClick = changeOption;
+rbPpiResamplePsd.onClick = changeOption;
+cbMaxPixelsPsd.onClick = changeOption;
+inpMaxPixelsWidePsd.onChange = (function () {
+validatePixels(this);
+changeOption();
+});
+inpMaxPixelsHighPsd.onChange = (function () {
+validatePixels(this);
+changeOption();
+});
+rbPathsKeepPsd.onClick = changeOption;
+rbPathsDiscardPsd.onClick = changeOption;
+rbPathsUserPsd.onClick = (function () {
+pathsUserOptionsPsd = pathsUserDialog("PSD", pathsUserOptionsPsd);
+changeOption();
+});
+rbLayersAsIsPsd.onClick = changeOption;
+rbLayersMergePsd.onClick = changeOption;
+rbLayersFlattenPsd.onClick = changeOption;
+cbSaveTif.onClick = (function () {
+if (!inpFolderTif.text.length) { 
+inpFolderTif.text = "TIF";
+}
+changeOption();
+});
+inpFolderTif.onChange = (function () {
+validateFolder(this);
+changeOption();
+});
+inpSuffixTif.onChange = (function () {
+validateSuffix(this);
+changeOption();
+});
+cbConvertTif.onClick = changeOption;
+listProfilesTif.onChange = changeOption;
+cbAdjustPpiTif.onClick = changeOption;
+inpPpiTif.onChange = (function () {
+validateNumeric(this, true, defaultSettings.ppiTif);
+});
+rbPpiSetTif.onClick = changeOption;
+rbPpiResampleTif.onClick = changeOption;
+cbMaxPixelsTif.onClick = changeOption;
+inpMaxPixelsWideTif.onChange = (function () {
+validatePixels(this);
+changeOption();
+});
+inpMaxPixelsHighTif.onChange = (function () {
+validatePixels(this);
+changeOption();
+});
+rbPathsKeepTif.onClick = changeOption;
+rbPathsDiscardTif.onClick = changeOption;
+rbPathsUserTif.onClick = (function () {
+pathsUserOptionsTif = pathsUserDialog("TIF", pathsUserOptionsTif);
+changeOption();
+});
+rbLayersAsIsTif.onClick = changeOption;
+rbLayersMergeTif.onClick = changeOption;
+rbLayersFlattenTif.onClick = changeOption;
+cbSaveJpg.onClick = (function () {
+if (!inpFolderJpg.text.length) { 
+inpFolderJpg.text = "JPG";
+}
+changeOption();
+});
+inpFolderJpg.onChange = (function () {
+validateFolder(this);
+changeOption();
+});
+inpSuffixJpg.onChange = (function () {
+validateSuffix(this);
+changeOption();
+});
+cbConvertJpg.onClick = changeOption;
+listProfilesJpg.onChange = changeOption;
+cbAdjustPpiJpg.onClick = changeOption;
+inpPpiJpg.onChange = (function () {
+validateNumeric(this, true, defaultSettings.ppiJpg);
+});
+rbPpiSetJpg.onClick = changeOption;
+rbPpiResampleJpg.onClick = changeOption;
+cbMaxPixelsJpg.onClick = changeOption;
+inpMaxPixelsWideJpg.onChange = (function () {
+validatePixels(this);
+changeOption();
+});
+inpMaxPixelsHighJpg.onChange = (function () {
+validatePixels(this);
+changeOption();
+});
+rbPathsKeepJpg.onClick = changeOption;
+rbPathsDiscardJpg.onClick = changeOption;
+rbPathsUserJpg.onClick = (function () {
+pathsUserOptionsJpg = pathsUserDialog("JPG", pathsUserOptionsJpg);
+changeOption();
+});
+cbEmbedProfileJpg.onClick = changeOption;
+listQualityJpg.onChange = changeOption;
+cbRenameWebJpg.onClick = changeOption;
+cbSavePng.onClick = (function () {
+if (!inpFolderPng.text.length) { 
+inpFolderPng.text = "PNG";
+}
+changeOption();
+});
+inpFolderPng.onChange = (function () {
+validateFolder(this);
+changeOption();
+});
+inpSuffixPng.onChange = (function () {
+validateSuffix(this);
+changeOption();
+});
+cbAdjustPpiPng.onClick = changeOption;
+inpPpiPng.onChange = (function () {
+validateNumeric(this, true, defaultSettings.ppiPng);
+});
+rbPpiSetPng.onClick = changeOption;
+rbPpiResamplePng.onClick = changeOption;
+cbMaxPixelsPng.onClick = changeOption;
+inpMaxPixelsWidePng.onChange = (function () {
+validatePixels(this);
+changeOption();
+});
+inpMaxPixelsHighPng.onChange = (function () {
+validatePixels(this);
+changeOption();
+});
+rbLayersMergePng.onClick = changeOption;
+rbLayersFlattenPng.onClick = changeOption;
+cbRenameWebPng.onClick = changeOption;
+rbPng8.onClick = changeOption;
+rbPng24.onChange = changeOption;
+rbOutSource.onClick = (function () {
+rbOutOther.value = false;
+changeOption();
+});
+cbReplaceOutput.onClick = changeOption;
+rbOutOther.onClick = (function () {
+rbOutSource.value = false;
+changeOption();
+});
+btnFolderOutput.onClick = (function () {
+var f = Folder.selectDialog("Select output folder", folderOutputLastValid);
+if (f) { 
+txtFolderOutput.text = Folder.decode(f.fullName);
+}
+});
+listSettings.onChange = (function () {
+if (this.selection !== null) { 
+settings.lock = true;
+settings.apply(settings.items[this.selection.index]);
+configureUi();
+settings.lock = false;
+}
+});
+btnDeleteSettings.onClick = (function () {
+var index = listSettings.selection.index;
+if ((index > -1) && (confirm("Delete settings \"" + settings.items[index].name + "\"", true, " "))) { 
+settings.remove(index);
+listSettings.remove(index);
+listSettings.selection = null;
+this.enabled = false;
+}
+});
+btnSaveSettings.onClick = (function () {
+var index = settings.add();
+if (index > -1) { 
+settings.update();
+listSettings.selection = index;
+btnDeleteSettings.enabled = true;
+}
+});
+btnOk.onClick = (function () {
+if (!((((cbSavePsd.value) || (cbSaveTif.value)) || (cbSaveJpg.value)) || (cbSavePng.value))) { 
+alert("Choose at least one format to output.", " ", false);
+return;
+}
+folderInput = new Folder(txtFolderInput.text);
+if (!((folderInput) && (folderInput.exists))) { 
+txtFolderInput.text = "";
+alert("Select input folder", " ", false);
+return;
+}
+if (rbOutOther.value) { 
+folderOutput = new Folder(txtFolderOutput.text);
+if (!((folderOutput) && (folderOutput.exists))) { 
+txtFolderOutput.text = "";
+alert("Select output folder", " ", false);
+return;
+}
+}
+if (((((cbSavePsd.value) && (isEmpty(inpFolderPsd.text))) || ((cbSaveTif.value) && (isEmpty(inpFolderTif.text)))) || ((cbSaveJpg.value) && (isEmpty(inpFolderJpg.text)))) || ((cbSavePng.value) && (isEmpty(inpFolderPng.text)))) { 
+alert("A folder name is required for all formats selected to output.", " ", false);
+return;
+}
+if ((((cbConvertPsd.value) && (!listProfilesPsd.selection)) || ((cbConvertTif.value) && (!listProfilesTif.selection))) || ((cbConvertJpg.value) && (!listProfilesJpg.selection))) { 
+alert("Convert to profile requires a profile is selected", " ", false);
+return;
+}
+if (((((cbAdjustPpiPsd.value) && (isEmpty(inpPpiPsd.text))) || ((cbAdjustPpiTif.value) && (isEmpty(inpPpiTif.text)))) || ((cbAdjustPpiJpg.value) && (isEmpty(inpPpiJpg.text)))) || ((cbAdjustPpiPng.value) && (isEmpty(inpPpiPng.text)))) { 
+alert("Adjust PPI requires a PPI value is entered", " ", false);
+return;
+}
+if (((((cbMaxPixelsPsd.value) && ((isEmpty(inpMaxPixelsWidePsd.text)) && (isEmpty(inpMaxPixelsHighPsd.text)))) || ((cbMaxPixelsTif.value) && ((isEmpty(inpMaxPixelsWideTif.text)) && (isEmpty(inpMaxPixelsHighTif.text))))) || ((cbMaxPixelsJpg.value) && ((isEmpty(inpMaxPixelsWideJpg.text)) && (isEmpty(inpMaxPixelsHighJpg.text))))) || ((cbMaxPixelsPng.value) && ((isEmpty(inpMaxPixelsWidePng.text)) && (isEmpty(inpMaxPixelsWidePng.text))))) { 
+alert("Maximum pixels requires at least one dimension (width or height) is entered", " ", false);
+return;
+}
+w.close(1);
+});
+btnCancel.onClick = (function () {
+w.close(0);
+});
+if (w.show() == 1) { 
+doneMessage = "";
+try {
+settings.preserve();
+process();
+doneMessage = (doneMessage) || (count + " files processed");
+} catch (e) {if (/User cancel/.test(e.message)) { 
+log.cancel();
+doneMessage = "Canceled";
+}
+else {
+error = (error) || (e);
+doneMessage = "An error has occurred.\nLine " + error.line + ": " + error.message;
+}
+}
+closeAllWasNotOpen();
+app.bringToFront();
+progress.close();
+try {
+log.path = folderInput;
+log.write();
+} catch (e) {alert("Error writing log:\n" + e.message, title, true);
+}
+if (log.file) { 
+if (confirm(doneMessage + "\nAlerts reported. See log for details:\n" + File.decode(log.file.fullName) + "\n\nOpen log?", false, title)) { 
+log.file.execute();
+}
+}
+else {
+(doneMessage) && (alert(doneMessage, title, error));
+}
+}
+})();
